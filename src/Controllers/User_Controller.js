@@ -1,6 +1,7 @@
 const User = require("../Models/User");
 const path = require("path");
 const fs = require("fs");
+const { stringify } = require("querystring");
 
 const createUser = async (req, res) => {
   const user = req.body;
@@ -83,17 +84,21 @@ const uploaProfilePic = async (req, res) => {
 };
 const getAllUsers = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, role = "user" } = req.query;
     const PageNumber = parseInt(page);
     const LimitNumber = parseInt(limit);
+
     const skip = (PageNumber - 1) * LimitNumber;
-    const Users = await User.find({ isDeleted: false })
+    const filter = { isDeleted: false };
+    if (role) filter.role = role;
+    console.log("filter", filter);
+    const Users = await User.find(filter)
       .select("-password")
       .skip(skip)
       .limit(LimitNumber)
       .sort({ createdAt: -1 });
-
-    const totalItems = await User.countDocuments();
+    console.log("users", Users);
+    const totalItems = await User.countDocuments(filter);
     return res.status(201).json({
       data: Users,
       totalItems: totalItems,
