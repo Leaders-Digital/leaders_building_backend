@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema(
           "Password must be at least 8 characters long, and include one uppercase letter, one number, and one special character",
       },
     },
-    department: { type: String, required: true },
+    department: { type: String },
     role: {
       type: String,
       enum: ["admin", "user"],
