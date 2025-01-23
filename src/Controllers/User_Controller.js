@@ -86,14 +86,23 @@ const uploaProfilePic = async (req, res) => {
 };
 const getAllUsers = async (req, res) => {
   try {
-    const { page = 1, limit = 10, role = "" } = req.query;
+    const { page = 1, limit = 10, role = "", search = "" } = req.query;
     const PageNumber = parseInt(page);
     const LimitNumber = parseInt(limit);
-
+    const searchString = String(search || "").trim();
+    console.log("search", searchString);
     const skip = (PageNumber - 1) * LimitNumber;
     const filter = { isDeleted: false };
-    if (role) filter.role = role;
-
+    if (role && role !== "undefined") filter.role = role;
+    console.log("filter without search", filter);
+    if (search) {
+      filter.$or = [
+        { name: { $regex: searchString, $options: "i" } },
+        { lastName: { $regex: searchString, $options: "i" } },
+        { email: { $regex: searchString, $options: "i" } },
+      ];
+    }
+    console.log("filter with search", filter);
     const Users = await User.find(filter)
       .select("-password")
       .skip(skip)
