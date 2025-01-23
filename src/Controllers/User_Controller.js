@@ -44,18 +44,20 @@ const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
     const updatedData = req.body;
+
     const user = await User.findById(userId);
     if (!user)
       return res.status(401).json({ message: "there is no user by this id " });
+    const newdata = updatedData.data;
 
-    for (const key in updatedData) {
-      if (updatedData[key] !== undefined && updatedData[key] !== user[key]) {
-        user[key] = updatedData[key];
+    for (const key in newdata) {
+      if (newdata[key] !== undefined && newdata[key] !== user[key]) {
+        user[key] = newdata[key];
       }
-      console.log("'user:", user);
-      await user.save();
-      return res.status(201).json({ message: "user updated" });
     }
+
+    await user.save();
+    return res.status(201).json({ message: "user updated" });
   } catch (e) {
     console.log(e);
     return res.status(500).json({ message: `internal server error : ${e}` });
@@ -108,7 +110,7 @@ const getAllUsers = async (req, res) => {
       .skip(skip)
       .limit(LimitNumber)
       .sort({ createdAt: -1 });
-    console.log("users", Users);
+
     const totalItems = await User.countDocuments(filter);
     return res.status(201).json({
       data: Users,
