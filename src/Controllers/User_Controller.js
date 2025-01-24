@@ -34,7 +34,7 @@ const deleteUser = async (req, res) => {
     );
     return res
       .status(201)
-      .json({ message: `user updated : ${updatedUser}`, sucess: true });
+      .json({ message: `user deleted : ${updatedUser}`, sucess: true });
   } catch (e) {
     console.log(e);
     return res.status(501).json({ message: `Internal server error : ${e}` });
@@ -92,11 +92,11 @@ const getAllUsers = async (req, res) => {
     const PageNumber = parseInt(page);
     const LimitNumber = parseInt(limit);
     const searchString = String(search || "").trim();
-    console.log("search", searchString);
+
     const skip = (PageNumber - 1) * LimitNumber;
     const filter = { isDeleted: false };
     if (role && role !== "undefined") filter.role = role;
-    console.log("filter without search", filter);
+
     if (search) {
       filter.$or = [
         { name: { $regex: searchString, $options: "i" } },
@@ -104,7 +104,7 @@ const getAllUsers = async (req, res) => {
         { email: { $regex: searchString, $options: "i" } },
       ];
     }
-    console.log("filter with search", filter);
+
     const Users = await User.find(filter)
       .select("-password")
       .skip(skip)
