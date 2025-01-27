@@ -1,4 +1,6 @@
+const Prospect = require("../Models/Prospect");
 const prospectService = require("../service/prospect_service");
+const getAllRecords = require("../utils/getAllRecords");
 
 const createProspect = async (req, res) => {
   try {
@@ -31,36 +33,9 @@ const updateProspect = async (req, res) => {
 };
 
 const getAllProspects = async (req, res) => {
-  try {
-    const filters = req.body.filters || {};
-    const { page, limit } = req.query;
-    const search = req.query.search || "";
-
-    const result = await prospectService.getAllProspects(
-      page,
-      limit,
-      filters,
-      search
-    );
-
-    res.status(200).json({
-      success: true,
-      message: "Prospects retrieved successfully",
-      data: result.prospects,
-      meta: {
-        totalItems: result.totalItems,
-        totalPages: result.totalPages,
-        currentPage: result.currentPage,
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching prospects:", error);
-    res.status(500).json({
-      success: false,
-      message: "An error occurred while retrieving prospects",
-      error: error.message,
-    });
-  }
+  const filters = { isDeleted: false }; // Custom filters
+  const searchFields = ["name", "lastName", "email"];
+  await getAllRecords(Prospect, req, res, searchFields, filters);
 };
 
 const getProspectById = async (req, res) => {
