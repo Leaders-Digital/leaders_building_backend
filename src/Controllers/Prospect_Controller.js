@@ -22,9 +22,10 @@ const deleteProspect = async (req, res) => {
 
 const updateProspect = async (req, res) => {
   try {
+    console.log("propect data", req.body);
     const prospect = await prospectService.updateProspect(
       req.params.id,
-      req.body
+      req.body.data
     );
     res.status(200).json({ message: "Prospect updated", data: prospect });
   } catch (error) {
@@ -33,8 +34,8 @@ const updateProspect = async (req, res) => {
 };
 
 const getAllProspects = async (req, res) => {
-  const filters = { isDeleted: false }; // Custom filters
-  const searchFields = ["name", "lastName", "email"];
+  const filters = { isDeleted: false };
+  const searchFields = ["name", "lastName", "email", "status"];
   await getAllRecords(Prospect, req, res, searchFields, filters);
 };
 

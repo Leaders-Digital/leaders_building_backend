@@ -44,7 +44,7 @@ const logout = async (req, res) => {
 const GetCurrentUser = async (req, res) => {
   try {
     const id = req.userId.id;
-    console.log("idddd", id);
+
     const user = await User.findById(id);
     if (!user) {
       return res

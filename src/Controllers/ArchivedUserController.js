@@ -7,7 +7,7 @@ const getAllArchivedUsers = async (req, res) => {
     const PageNumber = parseInt(page);
     const LimitNumber = parseInt(limit);
     const searchString = String(search || "").trim();
-    console.log("search string :", searchString);
+
     const skip = (PageNumber - 1) * LimitNumber;
     const filter = { isDeleted: true };
     if (role && role !== "undefined") filter.role = role;
@@ -19,7 +19,7 @@ const getAllArchivedUsers = async (req, res) => {
         { email: { $regex: searchString, $options: "i" } },
       ];
     }
-    console.log(filter);
+
     const Users = await User.find(filter)
       .select("-password")
       .skip(skip)
