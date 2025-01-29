@@ -25,7 +25,7 @@ const getAllArchivedUsers = async (req, res) => {
       .skip(skip)
       .limit(LimitNumber)
       .sort({ createdAt: -1 });
-    console.log("archived users", Users);
+
     const totalItems = await User.countDocuments(filter);
 
     return res.status(200).json({

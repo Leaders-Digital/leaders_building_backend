@@ -6,6 +6,7 @@ const {
   getAllProspects,
   getProspectById,
   becomeClient,
+  getAllClients,
 } = require("../Controllers/Prospect_Controller");
 const ProspectRouter = express.Router();
 
@@ -15,5 +16,6 @@ ProspectRouter.put("/update/:id", updateProspect);
 ProspectRouter.get("/getAll", getAllProspects);
 ProspectRouter.get("/getById/:id", getProspectById);
 ProspectRouter.put("/changeProspectType/:id", becomeClient);
+ProspectRouter.get("/getAllClients", getAllClients);
 
 module.exports = ProspectRouter;

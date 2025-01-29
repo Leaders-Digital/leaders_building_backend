@@ -34,7 +34,7 @@ const updateProspect = async (req, res) => {
 };
 
 const getAllProspects = async (req, res) => {
-  const filters = { isDeleted: false };
+  const filters = { isDeleted: false, type: "prospect" };
   const searchFields = ["name", "lastName", "email", "status"];
   await getAllRecords(Prospect, req, res, searchFields, filters);
 };
@@ -62,6 +62,11 @@ const becomeClient = async (req, res) => {
   }
 };
 
+const getAllClients = async (req, res) => {
+  const filters = { isDeleted: false, type: "client" };
+  const searchFields = ["name", "lastName", "email", "status"];
+  await getAllRecords(Prospect, req, res, searchFields, filters);
+};
 module.exports = {
   createProspect,
   deleteProspect,
@@ -69,4 +74,5 @@ module.exports = {
   getAllProspects,
   getProspectById,
   becomeClient,
+  getAllClients,
 };
