@@ -3,8 +3,18 @@ const mongoose = require("mongoose");
 const FileSchema = new mongoose.Schema(
   {
     name: { type: String },
-    refId: { type: String, required: true },
+
     FilePath: { type: String, required: true },
+    refId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      refPath: "modelType",
+    },
+    modelType: {
+      type: String,
+      required: true,
+      enum: ["Meeting", "Prospect"],
+    },
   },
   { timestamps: true }
 );

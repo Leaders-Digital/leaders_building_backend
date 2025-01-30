@@ -2,8 +2,8 @@ const path = require("path");
 const File = require("../Models/File");
 const AddFile = async (req, res) => {
   try {
-    const { refId } = req.body;
-    if (!req.file) {
+    const { refId, modelType } = req.params;
+    if (!req.file || !modelType) {
       return res.status(400).json({ message: "failed to upload the file " });
     }
     const fileData = {
@@ -12,6 +12,7 @@ const AddFile = async (req, res) => {
         .join("uploads", req.directory, req.file.filename)
         .replace(/\\/g, "/"),
       refId,
+      modelType,
     };
 
     const fileRecord = new File(fileData);

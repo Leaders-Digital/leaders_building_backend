@@ -1,6 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 const createUploadMiddleware = ({
   directory,
   fileTypes,
@@ -21,19 +22,11 @@ const createUploadMiddleware = ({
         .basename(file.originalname)
         .replace(/\s+/g, "_")
         .replace(/[^\w.-]/g, "");
-      const filePath = path.join(
-        __dirname,
-        "../uploads",
-        directory,
-        originalFileName
-      );
-      if (fs.existsSync(filePath)) {
-        const timestamp = Date.now();
-        const uniqueFileName = `${timestamp}-${originalFileName}`;
-        cb(null, uniqueFileName);
-      } else {
-        cb(null, originalFileName);
-      }
+
+      const fileUuid = uuidv4();
+      const fileExtension = path.extname(file.originalname);
+      const uniqueFileName = `${fileUuid}${fileExtension}`;
+      cb(null, uniqueFileName);
     },
   });
   const upload = multer({
