@@ -4,6 +4,7 @@ const Prospect = require("../Models/Prospect");
 const dayjs = require("dayjs");
 const utc = require("dayjs/plugin/utc");
 const validateUpdateData = require("../Validators/Validator_UpdatedData");
+const { mongo, default: mongoose } = require("mongoose");
 const { ObjectId } = require("mongoose").Types;
 
 dayjs.extend(utc);
@@ -79,7 +80,7 @@ const getAllMeetings = async (
   page,
   limit,
   filters = {},
-  search = "",
+
   prospectId
 ) => {
   const pageNumber = parseInt(page);
@@ -88,14 +89,11 @@ const getAllMeetings = async (
 
   const matchQuery = {};
   if (prospectId) {
-    matchQuery.prospect = new ObjectId(prospectId);
-  }
-
-  if (search) {
-    matchQuery.$or = [
-      { name: { $regex: search, $options: "i" } },
-      { title: { $regex: search, $options: "i" } },
-    ];
+    if (mongoose.Types.ObjectId.isValid(prospectId)) {
+      matchQuery.prospect = new ObjectId(prospectId);
+    } else {
+      return res.status(400).json({ message: "Invalid prospectId format" });
+    }
   }
 
   if (filters.date) {

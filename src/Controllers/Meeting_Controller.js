@@ -40,13 +40,16 @@ const updateMeeting = async (req, res) => {
 };
 const getAllMeetings = async (req, res) => {
   try {
-    const { page = 1, limit = 10, search = "", prospectId } = req.query;
+    const { page = 1, limit = 10, prospectId } = req.query;
     const filters = req.body.filters || {};
+    console.log("filters", filters);
+    console.log("search", prospectId);
+
     const result = await MeetingService.getAllMeetings(
       page,
       limit,
       filters,
-      search,
+
       prospectId
     );
     return res.status(200).json({

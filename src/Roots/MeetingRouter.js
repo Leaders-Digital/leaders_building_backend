@@ -13,7 +13,7 @@ const uploadRerpport = createUploadMiddleware({
 meetingRouter.post("/add", MeetingController.createMeeting);
 meetingRouter.put("/delete/:id", MeetingController.deleteMeeting);
 meetingRouter.put("/update/:id", MeetingController.updateMeeting);
-meetingRouter.get("/getAllMeetings", MeetingController.getAllMeetings);
+meetingRouter.post("/getAllMeetings", MeetingController.getAllMeetings);
 meetingRouter.post("/uploadRepport", uploadRerpport, AddFile);
 meetingRouter.get("/Repports/:id", GetFileByRef);
 module.exports = meetingRouter;

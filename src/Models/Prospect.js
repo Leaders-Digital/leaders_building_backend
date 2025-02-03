@@ -63,7 +63,47 @@ const ProspectSchema = new mongoose.Schema(
       },
     },
     isDeleted: { type: Boolean, default: false },
-    status: { type: String, default: "pas encore de résultat" },
+    stage: {
+      type: String,
+      enum: ["prospection", "suivi", "factorisation", "conversion", "abondon"],
+      default: "prospection",
+    },
+    status: {
+      type: String,
+    },
+    propertyType: {
+      type: String,
+      enum: ["RDC", "R+N", "Autre"],
+    },
+    propertyDetails: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+    projectType: {
+      type: String,
+      required: true,
+    },
+    source: {
+      type: String,
+      required: true,
+      enum: ["Agence", "Social Media", "Other"],
+    },
+    agence: {
+      name: { type: String },
+      agent: { type: String },
+    },
+    socialMedia: {
+      platform: { type: String },
+      link: { type: String },
+    },
+    otherSourceDescription: {
+      type: String,
+      default: null,
+    },
+    service: {
+      type: String,
+      required: true,
+    },
   },
 
   {
