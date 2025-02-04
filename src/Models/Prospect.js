@@ -70,7 +70,9 @@ const ProspectSchema = new mongoose.Schema(
     },
     status: {
       type: String,
+      required: true,
     },
+
     propertyType: {
       type: String,
       enum: ["RDC", "R+N", "Autre"],
@@ -104,6 +106,14 @@ const ProspectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    profilePicId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "File",
+    },
+    agent: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
 
   {
@@ -133,4 +143,6 @@ const isPassword = (value) => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+=[\]{}|;:'",.<>?/`~\\/-]{8,}$/;
   return passwordRgex.test(value);
 };
+ProspectSchema.index({ stage: 1 });
+
 module.exports = mongoose.model("Prospect", ProspectSchema);

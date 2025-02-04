@@ -1,10 +1,13 @@
 const Prospect = require("../Models/Prospect");
-const prospectService = require("../service/prospect_service");
-const getAllRecords = require("../utils/getAllRecords");
+const {
+  createProspectt,
+} = require("../service/ProspectService/createProspect");
 
+const getAllRecords = require("../utils/getAllRecords");
+const prospectService = require("../service/prospect_service");
 const createProspect = async (req, res) => {
   try {
-    const prospect = await prospectService.createProspect(req.body);
+    const prospect = await createProspectt(req.body);
     res.status(201).json({ message: "Prospect created", data: prospect });
   } catch (error) {
     res.status(400).json({ message: error.message });

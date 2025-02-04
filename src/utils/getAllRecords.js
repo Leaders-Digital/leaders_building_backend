@@ -6,7 +6,7 @@ const getAllRecords = async (
   filters = {}
 ) => {
   try {
-    const { page = 1, limit = 10, search = "", select = "" } = req.query;
+    const { page = 1, limit = 100, search = "", select = "" } = req.query;
 
     const PageNumber = parseInt(page);
     const LimitNumber = parseInt(limit);
@@ -27,8 +27,8 @@ const getAllRecords = async (
       .find(matchQuery)
       .select("-password")
       .skip(skip)
-      .limit(LimitNumber)
-      .sort({ createdAt: -1 });
+      .limit(LimitNumber);
+    // .sort({ createdAt: -1 });
 
     const totalItems = await model.countDocuments(matchQuery);
 

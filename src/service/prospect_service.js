@@ -1,30 +1,5 @@
 const Prospect = require("../Models/Prospect");
 const getAllRecords = require("../utils/getAllRecords");
-const createProspect = async (data) => {
-  const { name, lastName, telephone, email, adress, dateDeNaissance, cin } =
-    data;
-
-  if (!name || !lastName || !telephone || !email) {
-    throw new Error("One of the required fields is missing");
-  }
-
-  const existPros = await Prospect.findOne({ email: email });
-  if (existPros) {
-    throw new Error("This email already exists");
-  }
-
-  const prospect = await Prospect.create({
-    name,
-    lastName,
-    telephone,
-    email,
-    adress,
-    dateDeNaissance,
-    CIN: cin,
-  });
-
-  return prospect;
-};
 
 const deleteProspect = async (prospectId) => {
   const prospectExists = await Prospect.exists({ _id: prospectId });
@@ -126,7 +101,6 @@ const becomeClient = async (prospectId, data) => {
 };
 
 module.exports = {
-  createProspect,
   deleteProspect,
   updateProspect,
   getAllProspects,
