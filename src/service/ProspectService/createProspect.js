@@ -14,7 +14,7 @@ const createProspectt = async (data) => {
     adress,
     dateDeNaissance,
     cin,
-    stage,
+
     status,
     propertyType,
     propertyDetails,
@@ -50,7 +50,7 @@ const createProspectt = async (data) => {
     adress,
     dateDeNaissance,
     CIN: cin,
-    stage,
+
     status,
     projectType,
     propertyDetails,

@@ -1,22 +1,22 @@
 const validateRequiredFields = (data) => {
-  const { name, lastName, telephone, email, stage, status } = data;
-  if (!name || !lastName || !telephone || !email || !stage || !status) {
+  const { name, lastName, telephone, email, status } = data;
+  if (!name || !lastName || !telephone || !email || !status) {
     throw new Error("One of the required fields is missing");
   }
 };
 
 const validateSource = (source, data) => {
-  const allowedSources = ["Agence", "Social Media", "Other"];
+  const allowedSources = ["agence", "social Media", "Other"];
   if (!allowedSources.includes(source)) {
     throw new Error("Source is not valid");
   }
-  if (source === "Agence") {
+  if (source === "agence") {
     if (!data.agence || !data?.agence?.name || !data?.agence?.agent) {
       throw new Error("Agence source must have a name and an agent.");
     }
   }
 
-  if (source === "Social Media") {
+  if (source === "social Media") {
     if (
       !data?.socialMedia ||
       !data?.socialMedia?.platform ||

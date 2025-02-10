@@ -17,27 +17,20 @@ const deleteProspect = async (prospectId) => {
 };
 
 const updateProspect = async (prospectId, updatedData) => {
-  const prospect = await Prospect.findOne({
-    _id: prospectId,
-    isDeleted: false,
-  });
-  if (!prospect) {
-    throw new Error("There is no prospect by this ID");
+  console.log("Updated Data:", updatedData);
+
+  const updatedProspect = await Prospect.findByIdAndUpdate(
+    prospectId,
+    updatedData,
+    { new: true }
+  );
+
+  if (!updatedProspect) {
+    throw new Error("No prospect found with this ID");
   }
 
-  for (const key in updatedData) {
-    if (
-      updatedData[key] !== undefined &&
-      updatedData[key] !== prospect[key] &&
-      key !== "type" &&
-      key !== "_id"
-    ) {
-      prospect[key] = updatedData[key];
-    }
-  }
-  await prospect.save();
-
-  return prospect;
+  console.log("Prospect after update:", updatedProspect.toJSON());
+  return updatedProspect;
 };
 
 const getAllProspects = async (page, limit, filters = {}, search = "") => {

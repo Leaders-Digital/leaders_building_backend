@@ -28,7 +28,7 @@ const updateProspect = async (req, res) => {
     console.log("propect data", req.body);
     const prospect = await prospectService.updateProspect(
       req.params.id,
-      req.body.data
+      req.body
     );
     res.status(200).json({ message: "Prospect updated", data: prospect });
   } catch (error) {
