@@ -44,6 +44,7 @@ const getAllProspects = async (req, res) => {
 
 const getProspectById = async (req, res) => {
   try {
+    console.log("the endpoint trrigrd");
     const prospect = await prospectService.getProspectById(req.params.id);
     res.status(200).json({ data: prospect });
   } catch (error) {

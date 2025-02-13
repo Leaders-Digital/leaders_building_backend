@@ -30,6 +30,7 @@ const ProspectSchema = new mongoose.Schema(
     },
     adresse: {
       type: String,
+      require: true,
     },
     dateDeNaissance: {
       type: Date,

@@ -47,10 +47,9 @@ const createProspectt = async (data) => {
     lastName,
     telephone,
     email,
-    adress,
+    adresse: adress,
     dateDeNaissance,
     CIN: cin,
-
     status,
     projectType,
     propertyDetails,
