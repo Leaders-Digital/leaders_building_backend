@@ -9,6 +9,16 @@ const createActivity = async (req, res) => {
     return res.status(400).json({ message: e.message });
   }
 };
+const markAsDone = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const act = await ActivityService.markItAsDone(id);
+    return res.status(200).json({ message: "activity done", data: act });
+  } catch (e) {
+    return res.status(400).json({ message: e.message });
+  }
+};
 module.exports = {
   createActivity,
+  markAsDone,
 };
