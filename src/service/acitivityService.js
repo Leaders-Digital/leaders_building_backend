@@ -17,11 +17,7 @@ const addActivity = async (data) => {
   return newActivity;
 };
 const markItAsDone = async (id) => {
-  const act = await Activity.findByIdAndUpdate(
-    { _id: id },
-    { done: true },
-    { new: true }
-  );
+  const act = await Activity.findByIdAndUpdate({ _id: id }, { done: true });
   return act;
 };
 module.exports = {
