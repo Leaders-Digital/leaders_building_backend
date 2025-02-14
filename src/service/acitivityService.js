@@ -1,5 +1,6 @@
 const dayjs = require("dayjs");
 const Activity = require("../Models/Activity");
+const { default: mongoose } = require("mongoose");
 
 const addActivity = async (data) => {
   const { activity, date, description, propspectId } = data;
@@ -11,16 +12,31 @@ const addActivity = async (data) => {
   const newActivity = await Activity.create({
     date: normlizeDate,
     activity: activity,
-    description: description,
+    description: [description],
     propspectId: propspectId,
   });
   return newActivity;
 };
-const markItAsDone = async (id) => {
-  const act = await Activity.findByIdAndUpdate({ _id: id }, { done: true });
+const markItAsDone = async (id, note) => {
+  if (!note) {
+    note = "";
+  }
+  const act = await Activity.findById(id);
+  (act.done = true), act.description.push(note);
+  await act.save();
   return act;
+};
+const getAllActivitiesByProspect = async (prospectId) => {
+  const query = { isDeleted: false };
+  if (prospectId) {
+    query.propspectId = prospectId;
+  }
+  console.log(query);
+  const activites = await Activity.find(query);
+  return activites;
 };
 module.exports = {
   addActivity,
   markItAsDone,
+  getAllActivitiesByProspect,
 };

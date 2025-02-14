@@ -12,8 +12,20 @@ const createActivity = async (req, res) => {
 const markAsDone = async (req, res) => {
   try {
     const id = req.params.id;
-    const act = await ActivityService.markItAsDone(id);
+    const { note } = req.body;
+
+    const act = await ActivityService.markItAsDone(id, note);
     return res.status(200).json({ message: "activity done", data: act });
+  } catch (e) {
+    return res.status(400).json({ message: e.message });
+  }
+};
+const getAllActivities = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const activites = await ActivityService.getAllActivitiesByProspect(id);
+
+    return res.status(200).json({ data: activites });
   } catch (e) {
     return res.status(400).json({ message: e.message });
   }
@@ -21,4 +33,5 @@ const markAsDone = async (req, res) => {
 module.exports = {
   createActivity,
   markAsDone,
+  getAllActivities,
 };
