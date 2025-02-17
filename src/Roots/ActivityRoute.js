@@ -8,5 +8,5 @@ const ActivityRouter = express.Router();
 
 ActivityRouter.post("/add", createActivity);
 ActivityRouter.put("/markAsdone/:id", markAsDone);
-ActivityRouter.get("/getAll/:id", getAllActivities);
+ActivityRouter.get("/getAll", getAllActivities);
 module.exports = ActivityRouter;
