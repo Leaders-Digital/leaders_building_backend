@@ -8,9 +8,9 @@ const addActivity = async (data) => {
   if (!date || !activity) {
     throw new Error("one of the required fields is missing");
   }
-  const normlizeDate = dayjs.utc(date).startOf("day").toDate();
+  const normalizedDate = dayjs(date).utc().toDate();
   const newActivity = await Activity.create({
-    date: normlizeDate,
+    date: normalizedDate,
     activity: activity,
     description: [description],
     propspectId: propspectId,

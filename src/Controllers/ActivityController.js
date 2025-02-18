@@ -49,7 +49,14 @@ const getAllActivities = async (req, res) => {
       };
     }
 
-    return await getAllRecords(Activity, req, res, ["name", "email"], filters);
+    return await getAllRecords(
+      Activity,
+      req,
+      res,
+      ["name", "email"],
+      filters,
+      "date"
+    );
   } catch (e) {
     return res.status(400).json({ message: e.message });
   }
