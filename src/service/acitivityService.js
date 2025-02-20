@@ -35,8 +35,18 @@ const getAllActivitiesByProspect = async (prospectId) => {
   const activites = await Activity.find(query);
   return activites;
 };
+const addNote = async (id, note) => {
+  if (!note) {
+    note = "";
+  }
+  const activity = await Activity.findById(id);
+  activity.description.push(note);
+  await activity.save();
+  return activity;
+};
 module.exports = {
   addActivity,
   markItAsDone,
   getAllActivitiesByProspect,
+  addNote,
 };

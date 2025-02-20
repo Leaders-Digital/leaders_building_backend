@@ -106,11 +106,18 @@ const becomeClient = async (prospectId, data) => {
 
   return prospect;
 };
-
+const changeProspectStage = async (id, data) => {
+  const pros = await Prospect.findById(id);
+  pros.status = data.status;
+  pros.stage = data.stage;
+  await pros.save();
+  return pros;
+};
 module.exports = {
   deleteProspect,
   updateProspect,
   getAllProspects,
   getProspectById,
   becomeClient,
+  changeProspectStage,
 };

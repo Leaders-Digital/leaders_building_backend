@@ -23,6 +23,16 @@ const markAsDone = async (req, res) => {
     return res.status(400).json({ message: e.message });
   }
 };
+const addNote = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { note } = req.body;
+    const act = await ActivityService.addNote(id, note);
+    return res.status(200).json({ message: "note added", data: act });
+  } catch (e) {
+    return res.status(400).json({ message: e.message });
+  }
+};
 const getAllActivities = async (req, res) => {
   try {
     const { id, dateFilter } = req.query;
@@ -45,7 +55,8 @@ const getAllActivities = async (req, res) => {
       filters = {
         ...filters,
         done: true,
-        date: { $lt: currentDateMidnight },
+        //date: { $lt: currentDateMidnight },
+        isDeleted: false,
       };
     }
 
@@ -65,4 +76,5 @@ module.exports = {
   createActivity,
   markAsDone,
   getAllActivities,
+  addNote,
 };

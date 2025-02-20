@@ -44,7 +44,6 @@ const getAllProspects = async (req, res) => {
 
 const getProspectById = async (req, res) => {
   try {
-    console.log("the endpoint trrigrd");
     const prospect = await prospectService.getProspectById(req.params.id);
     res.status(200).json({ data: prospect });
   } catch (error) {
@@ -71,6 +70,19 @@ const getAllClients = async (req, res) => {
   const searchFields = ["name", "lastName", "email", "status"];
   await getAllRecords(Prospect, req, res, searchFields, filters);
 };
+const changeProspectStage = async (req, res) => {
+  try {
+    const pros = await prospectService.changeProspectStage(
+      req.params.id,
+      req.body
+    );
+    return res
+      .status(200)
+      .json({ message: "prospect stage changed", data: pros });
+  } catch (e) {
+    res.status(400).json({ message: e.message });
+  }
+};
 module.exports = {
   createProspect,
   deleteProspect,
@@ -79,4 +91,5 @@ module.exports = {
   getProspectById,
   becomeClient,
   getAllClients,
+  changeProspectStage,
 };
