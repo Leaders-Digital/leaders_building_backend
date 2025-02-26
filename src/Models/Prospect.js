@@ -89,7 +89,7 @@ const ProspectSchema = new mongoose.Schema(
     source: {
       type: String,
       required: true,
-      enum: ["agence", "social Media", "other"],
+      enum: ["agence", "rs", "site"],
     },
     agence: {
       name: { type: String },
@@ -114,6 +114,17 @@ const ProspectSchema = new mongoose.Schema(
     agent: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    percent: {
+      type: String,
+    },
+    lotissement: { type: String },
+    lotissementCords: {
+      nom: { type: String },
+      numLot: { type: String },
+    },
+    adressParticulier: {
+      type: String,
     },
   },
 

@@ -24,6 +24,10 @@ const createProspectt = async (data) => {
     otherSourceDescription,
     service,
     profilePicId,
+    percent,
+    lotissement,
+    lotissementCords,
+    adressParticulier,
   } = data;
 
   validateRequiredFields(data);
@@ -40,7 +44,8 @@ const createProspectt = async (data) => {
   if (propertyType === "R+N" && !Array.isArray(propertyDetails.floors)) {
     return res.status(400).json({ message: "must have floors and rooms" });
   }
-
+  console.log("lotissment", lotissement);
+  console.log("lotisscords", lotissementCords);
   const newprospect = new Prospect({
     name,
     lastName,
@@ -53,11 +58,15 @@ const createProspectt = async (data) => {
     projectType,
     propertyDetails,
     source,
-    agence: source === "Agence" ? agence : {},
+    agence: source === "agence" ? agence : {},
     socialMedia: source === "Social Media" ? socialMedia : {},
     otherSourceDescription: source === "Other" ? otherSourceDescription : null,
     service: service,
     profilePicId: profilePicId,
+    percent,
+    lotissement,
+    lotissementCords: lotissement === "Lotissement" ? lotissementCords : {},
+    adressParticulier,
   });
   //newprospect.statusHistory.push({ stage: stage, status: status });
   await newprospect.save();
