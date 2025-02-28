@@ -6,7 +6,7 @@ const validateRequiredFields = (data) => {
 };
 
 const validateSource = (source, data) => {
-  const allowedSources = ["agence", "social Media", "Other"];
+  const allowedSources = ["agence", "rs", "Other"];
   if (!allowedSources.includes(source)) {
     throw new Error("Source is not valid");
   }
@@ -16,7 +16,7 @@ const validateSource = (source, data) => {
     }
   }
 
-  if (source === "social Media") {
+  if (source === "rs") {
     if (
       !data?.socialMedia ||
       !data?.socialMedia?.platform ||

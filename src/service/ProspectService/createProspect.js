@@ -59,7 +59,7 @@ const createProspectt = async (data) => {
     propertyDetails,
     source,
     agence: source === "agence" ? agence : {},
-    socialMedia: source === "Social Media" ? socialMedia : {},
+    socialMedia: source === "rs" ? socialMedia : {},
     otherSourceDescription: source === "Other" ? otherSourceDescription : null,
     service: service,
     profilePicId: profilePicId,
@@ -67,6 +67,7 @@ const createProspectt = async (data) => {
     lotissement,
     lotissementCords: lotissement === "Lotissement" ? lotissementCords : {},
     adressParticulier,
+    propertyType,
   });
   //newprospect.statusHistory.push({ stage: stage, status: status });
   await newprospect.save();
