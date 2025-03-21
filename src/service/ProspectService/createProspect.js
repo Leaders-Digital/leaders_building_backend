@@ -28,6 +28,7 @@ const createProspectt = async (data) => {
     lotissement,
     lotissementCords,
     adressParticulier,
+    agent,
   } = data;
 
   validateRequiredFields(data);
@@ -68,6 +69,7 @@ const createProspectt = async (data) => {
     lotissementCords: lotissement === "Lotissement" ? lotissementCords : {},
     adressParticulier,
     propertyType,
+    agent,
   });
   //newprospect.statusHistory.push({ stage: stage, status: status });
   await newprospect.save();

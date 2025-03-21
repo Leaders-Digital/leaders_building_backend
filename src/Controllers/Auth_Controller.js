@@ -23,7 +23,7 @@ const login = async (req, res) => {
       })
       .json({
         message: "Login sucessful ",
-        user: { email: user.email, userID: user._id },
+        user: { email: user.email, userID: user._id, role: user.role },
       });
   } catch (e) {
     return res

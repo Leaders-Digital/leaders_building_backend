@@ -13,7 +13,7 @@ const FileSchema = new mongoose.Schema(
     modelType: {
       type: String,
       required: true,
-      enum: ["Meeting", "Prospect"],
+      enum: ["Meeting", "Prospect", "User"],
     },
   },
   { timestamps: true }
