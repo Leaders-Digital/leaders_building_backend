@@ -6,6 +6,7 @@ const AuthMiddleware = require("../Middlewares/AuthMiddelware");
 const AuthRouter = require("./AuthRoute");
 const FileRouter = require("./File");
 const ActivityRouter = require("./ActivityRoute");
+const DevisRouter = require("./DevisRoote");
 const router = express.Router();
 
 router.use("/admin", userRouter);
@@ -14,4 +15,5 @@ router.use("/meeting", meetingRouter);
 router.use("/user", AuthRouter);
 router.use("/file", FileRouter);
 router.use("/activity", ActivityRouter);
+router.use("/devis", DevisRouter);
 module.exports = router;

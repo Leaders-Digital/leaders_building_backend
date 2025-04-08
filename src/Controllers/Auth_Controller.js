@@ -6,7 +6,7 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ email: email });
     if (!user)
-      return res.status("400").json({ message: "there is no user by this Id" });
+      return res.status(400).json({ message: "there is no user by this Id" });
     const validePassword = await user.comparePassword(password);
     if (!validePassword)
       return res.status(400).json({ message: "email or password incorrect " });

@@ -11,3 +11,4 @@ const ProjectSchema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: "Prospect" },
   location: { type: String },
 });
+module.exports = mongoose.model("Project", ProjectSchema);
