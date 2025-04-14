@@ -31,8 +31,8 @@ const GetDevisbyId = async (req, res) => {
 };
 const CreateSection = async (req, res) => {
   try {
-    const data = req.body;
-    console.log("section");
+    const data = req?.body;
+    console.log("section", data);
     const result = await createSection(data);
     if (!result || !result.length) {
       return res.status(400).json({ message: "there is no section" });

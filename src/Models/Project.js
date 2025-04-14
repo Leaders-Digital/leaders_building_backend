@@ -8,7 +8,18 @@ const ProjectSchema = new mongoose.Schema({
   dateStart: { type: Date },
   dateEnd: { type: Date },
   budget: { type: String },
-  client: { type: mongoose.Schema.Types.ObjectId, ref: "Prospect" },
+  clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Prospect" },
   location: { type: String },
+  isDeleted: { type: Boolean, default: false },
+  adress: {
+    suburb: { type: String },
+    city_district: { type: String },
+    city: { type: String },
+    state: { type: String },
+    postcode: { type: String },
+    country: { type: String },
+  },
+  lat: { type: String },
+  lon: { type: String },
 });
 module.exports = mongoose.model("Project", ProjectSchema);

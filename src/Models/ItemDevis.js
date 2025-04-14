@@ -7,5 +7,10 @@ const ItemSchema = new mongoose.Schema({
   qte: { type: Number },
   puHT: { type: Number },
   ptHT: { type: Number },
+  sectionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SectionDevis",
+    require: "true",
+  },
 });
 module.exports = mongoose.model("ItemSection", ItemSchema);

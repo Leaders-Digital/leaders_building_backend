@@ -50,7 +50,7 @@ const updateProspect = async (prospectId, updatedData) => {
 const getAllProspects = async (page, limit, filters = {}, search = "") => {
   const extraQuery = { isDeleted: false };
 
-  const searchFields = ["name", "lastName", "email"];
+  const searchFields = ["name", "lastName", "email", "type"];
 
   const result = await getAllRecords(
     Prospect,
