@@ -3,6 +3,7 @@ const {
   CreateProject,
   updateProject,
   deleteProject,
+  getProjectById,
 } = require("../service/projectService");
 const { getProspectById } = require("../service/prospect_service");
 const getAllRecords = require("../utils/getAllRecords");
@@ -67,7 +68,13 @@ const DeleteProject = async (req, res) => {
 const getAllProjects = async (req, res) => {
   try {
     const filters = { isDeleted: false };
-    const searchFields = ["name", "lastName", "status", "location"];
+    const searchFields = [
+      "name",
+      "lastName",
+      "status",
+      "location",
+      "projectId",
+    ];
     await getAllRecords(Project, req, res, searchFields, filters);
   } catch (e) {
     return res.status(500).json({ message: e.message });

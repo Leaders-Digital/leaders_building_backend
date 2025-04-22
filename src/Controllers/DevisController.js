@@ -1,16 +1,17 @@
+const Devis = require("../Models/Devis");
 const {
   createDevis,
   getDevisById,
   createSection,
 } = require("../service/devisService");
+const getAllRecords = require("../utils/getAllRecords");
 
 const CreateDevis = async (req, res) => {
   try {
     console.log("data", req.body);
     const data = req?.body;
-    const devis = { ...data, section: [] };
 
-    const resulta = await createDevis(devis);
+    const resulta = await createDevis(data);
     return res.status(200).json({ message: "sucess", data: resulta });
   } catch (e) {
     return res.status(500).json({ message: e.message });
@@ -42,8 +43,18 @@ const CreateSection = async (req, res) => {
     return res.status(500).json({ mesage: e.message });
   }
 };
+const GetAllDevis = async (req, res) => {
+  try {
+    const filters = { isDeleted: false };
+    const searchFields = ["name", "status"];
+    await getAllRecords(Devis, req, res, searchFields, filters);
+  } catch (e) {
+    return res.status(500).json({ message: e.message });
+  }
+};
 module.exports = {
   CreateDevis,
   GetDevisbyId,
   CreateSection,
+  GetAllDevis,
 };

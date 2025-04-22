@@ -1,5 +1,4 @@
 const Devis = require("../Models/Devis");
-const SectionDevis = require("../Models/SectionDevis");
 
 const createDevis = async (data) => {
   try {
@@ -20,17 +19,8 @@ const getDevisById = async (id) => {
     throw e;
   }
 };
-const createSection = async (data) => {
-  try {
-    const res = new SectionDevis(data);
-    await res.save();
-    return res;
-  } catch (e) {
-    throw e;
-  }
-};
+
 module.exports = {
   createDevis,
   getDevisById,
-  createSection,
 };
