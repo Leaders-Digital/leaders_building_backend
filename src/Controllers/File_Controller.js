@@ -13,6 +13,8 @@ const AddFile = async (req, res) => {
         .replace(/\\/g, "/"),
       refId,
       modelType,
+      originalName: req.file.originalname,
+      fileType: req.file.mimetype,
     };
 
     const fileRecord = new File(fileData);

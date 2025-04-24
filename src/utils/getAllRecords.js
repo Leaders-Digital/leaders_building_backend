@@ -1,17 +1,19 @@
+const { default: mongoose } = require("mongoose");
+
 const getAllRecords = async (
   model,
   req,
   res,
   searchFields = ["name", "lastName", "email", "status"],
   filters = {},
-  sortField = "createdAt"
+  sortField = "createdAt",
+  objectIdFields = []
 ) => {
   try {
     const { page = 1, limit = 100, search = "", select = "" } = req.query;
 
     const PageNumber = parseInt(page);
     const LimitNumber = parseInt(limit);
-
     const skip = (PageNumber - 1) * LimitNumber;
 
     const searchString = String(search || "").trim();
@@ -19,10 +21,35 @@ const getAllRecords = async (
     const matchQuery = { ...filters };
 
     if (searchString) {
-      matchQuery.$or = searchFields.map((field) => ({
-        [field]: { $regex: searchString, $options: "i" },
-      }));
+      matchQuery.$or = [];
+
+      const textSearchFields = searchFields.filter(
+        (f) => !objectIdFields.includes(f)
+      );
+      if (textSearchFields.length > 0) {
+        matchQuery.$or.push(
+          ...textSearchFields.map((field) => ({
+            [field]: { $regex: searchString, $options: "i" },
+          }))
+        );
+      }
+
+      if (
+        objectIdFields.length > 0 &&
+        mongoose.Types.ObjectId.isValid(searchString)
+      ) {
+        matchQuery.$or.push(
+          ...objectIdFields.map((field) => ({
+            [field]: new mongoose.Types.ObjectId(searchString),
+          }))
+        );
+      }
+
+      if (matchQuery.$or.length === 0) {
+        delete matchQuery.$or;
+      }
     }
+
     const sortOrder = { [sortField]: -1 };
     const records = await model
       .find(matchQuery)

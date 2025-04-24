@@ -47,7 +47,16 @@ const GetAllDevis = async (req, res) => {
   try {
     const filters = { isDeleted: false };
     const searchFields = ["name", "status"];
-    await getAllRecords(Devis, req, res, searchFields, filters);
+    const objectIdFields = ["projectId"];
+    await getAllRecords(
+      Devis,
+      req,
+      res,
+      searchFields,
+      filters,
+      "createdAt",
+      objectIdFields
+    );
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
