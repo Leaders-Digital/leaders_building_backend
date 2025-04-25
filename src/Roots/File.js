@@ -5,7 +5,7 @@ const FileRouter = express.Router();
 
 const uploadFile = createUploadMiddleware({
   directory: "Uploads_files",
-  fileTypes: ["jpg", "png", "jpeg", "pdf"],
+  fileTypes: ["jpg", "png", "jpeg", "pdf", "xlsx"],
   maxSize: 20 * 1024 * 1024,
   fieldName: "file",
 });
