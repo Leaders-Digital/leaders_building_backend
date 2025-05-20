@@ -92,10 +92,21 @@ const GetProjectById = async (req, res) => {
     return res.status(500).json({ message: e.message });
   }
 };
+const GetProjectsByClientId = async (req, res) => {
+  try {
+    const clientId = req.params.clientId;
+    const filters = { isDeleted: false, clientId: clientId };
+    const searchFields = ["name", "status", "location", "projectType"];
+    await getAllRecords(Project, req, res, searchFields, filters);
+  } catch (e) {
+    return res.status(500).json({ message: e.message });
+  }
+};
 module.exports = {
   createProject,
   UpdateProject,
   DeleteProject,
   getAllProjects,
   GetProjectById,
+  GetProjectsByClientId,
 };
