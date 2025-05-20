@@ -25,7 +25,7 @@ const ProspectSchema = new mongoose.Schema(
       },
     },
     telephone: {
-      type: String,
+      type: [String],
       required: true,
     },
     adresse: {

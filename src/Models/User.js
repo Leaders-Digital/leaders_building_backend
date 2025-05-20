@@ -45,9 +45,11 @@ const UserSchema = new mongoose.Schema(
     department: { type: String },
     role: {
       type: String,
-      enum: ["admin", "user"],
+      enum: ["admin", "user", "client"],
       required: true,
     },
+    clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Prospect" },
+
     profilePic: { type: String },
     isDeleted: { type: Boolean, default: false },
   },
