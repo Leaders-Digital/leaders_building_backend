@@ -1,4 +1,6 @@
 const Project = require("../Models/Project");
+const Prospect = require("../Models/Prospect");
+
 const {
   CreateProject,
   updateProject,
@@ -95,9 +97,14 @@ const GetProjectById = async (req, res) => {
 const GetProjectsByClientId = async (req, res) => {
   try {
     const clientId = req.params.clientId;
-    const filters = { isDeleted: false, clientId: clientId };
-    const searchFields = ["name", "status", "location", "projectType"];
-    await getAllRecords(Project, req, res, searchFields, filters);
+    const client = await Prospect.findById(clientId);
+    if (!client) {
+      return res.status(404).json({ message: "client not found" });
+    }
+    const projects = await Project.find({ clientId: clientId }).populate(
+      "members"
+    );
+    res.status(200).json({ data: projects });
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }

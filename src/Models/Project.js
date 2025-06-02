@@ -11,7 +11,7 @@ const ProjectSchema = new mongoose.Schema({
   clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Prospect" },
   location: { type: String },
   isDeleted: { type: Boolean, default: false },
-  photos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'File' }],
+  photos: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }],
   adress: {
     suburb: { type: String },
     city_district: { type: String },
@@ -23,6 +23,5 @@ const ProjectSchema = new mongoose.Schema({
   lat: { type: String },
   lon: { type: String },
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  phases:{type: [mongoose.Schema.Types.ObjectId], ref: "ProjectPhases"}
 });
 module.exports = mongoose.model("Project", ProjectSchema);
