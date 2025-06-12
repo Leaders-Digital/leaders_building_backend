@@ -57,9 +57,7 @@ const getAllRecords = async (
       .skip(skip)
       .limit(LimitNumber)
       .sort(sortOrder)
-      .populate("members", "-password") // populate members without password
-      .populate("clientId") // optional: populate client data if needed
-      .populate("phases");
+
     const totalItems = await model.countDocuments(matchQuery);
 
     return res.status(200).json({

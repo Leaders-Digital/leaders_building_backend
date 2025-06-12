@@ -78,6 +78,7 @@ const getAllProjects = async (req, res) => {
       "projectId",
     ];
     await getAllRecords(Project, req, res, searchFields, filters);
+
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
