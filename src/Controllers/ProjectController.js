@@ -1,5 +1,6 @@
 const Project = require("../Models/Project");
 const Prospect = require("../Models/Prospect");
+const User = require("../Models/User");
 
 const {
   CreateProject,
@@ -98,7 +99,7 @@ const GetProjectById = async (req, res) => {
 const GetProjectsByClientId = async (req, res) => {
   try {
     const clientId = req.params.clientId;
-    const client = await Prospect.findById(clientId);
+    const client = await User.findById(clientId);
     if (!client) {
       return res.status(404).json({ message: "client not found" });
     }

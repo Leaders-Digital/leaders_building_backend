@@ -20,6 +20,7 @@ const ProjectSchema = new mongoose.Schema({
     postcode: { type: String },
     country: { type: String },
   },
+  expoToken: {type:String},
   video: [{ type: String }],
   lat: { type: String },
   lon: { type: String },

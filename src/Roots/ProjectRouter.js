@@ -7,6 +7,7 @@ const {
   GetProjectById,
   GetProjectsByClientId,
 } = require("../Controllers/ProjectController");
+const {saveExpoToken} = require("../Controllers/expoTokenContoller");
 
 const ProjectRouter = express.Router();
 
@@ -16,4 +17,5 @@ ProjectRouter.put("/delete/:id", DeleteProject);
 ProjectRouter.get("/getAll", getAllProjects);
 ProjectRouter.get("/getById/:id", GetProjectById);
 ProjectRouter.get("/getByClientId/:clientId", GetProjectsByClientId);
+ProjectRouter.post("/addExpoToken",saveExpoToken );
 module.exports = ProjectRouter;
