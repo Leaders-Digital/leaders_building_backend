@@ -5,6 +5,7 @@ const {
   updateUser,
   uploaProfilePic,
   getAllUsers,
+  getAllClients,
 } = require("../Controllers/User_Controller");
 const upload = require("../Middlewares/upload");
 const {
@@ -17,6 +18,9 @@ userRouter.post("/createUser", createUser);
 userRouter.put("/deleteUser/:id", deleteUser);
 userRouter.put("/updateUser/:id", updateUser);
 userRouter.get("/getAllUsers", getAllUsers);
+userRouter.get("/getAllClients", getAllClients);
+userRouter.get("/getClientById/:id", getAllClients);
+
 userRouter.put("/uploadPic/:id", upload.single("profilePic"), uploaProfilePic);
 userRouter.get("/ArchivedUsers", getAllArchivedUsers);
 userRouter.put("/unArchivedUser/:id", unArchivedUser);

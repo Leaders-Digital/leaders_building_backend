@@ -45,7 +45,6 @@ const updateProject = async (id, updatedData) => {
       const token=project.expoToken
       if (token) {
         const message=await sendPushNotification(token, updates.join(", "));
-        console.log(message);
       }
     }
     return project;

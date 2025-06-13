@@ -3,11 +3,11 @@ const { generateToken } = require("../utils/JWTUtils");
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await User.findOne({ email: email });
     if (!user)
       return res.status(400).json({ message: "there is no user by this Id" });
     const validePassword = await user.comparePassword(password);
+    console.log(validePassword);
     if (!validePassword)
       return res.status(400).json({ message: "email or password incorrect"});
 
@@ -31,6 +31,7 @@ const login = async (req, res) => {
       .json({ message: `internal server error ${e.message} ` });
   }
 };
+
 const logout = async (req, res) => {
   try {
     res.clearCookie("token");
@@ -41,6 +42,7 @@ const logout = async (req, res) => {
       .json({ message: `internal server error : ${e.message}` });
   }
 };
+
 const GetCurrentUser = async (req, res) => {
   try {
     const id = req.userId.id;

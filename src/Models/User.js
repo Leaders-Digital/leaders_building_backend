@@ -4,9 +4,7 @@ const validator = require("validator");
 const UserSchema = new mongoose.Schema(
   {
     name: { type: String, require: true },
-    nom: {
-      type: String,
-    },
+
     lastName: {
       type: String,
       required: true,
@@ -55,11 +53,13 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bycript.hash(this.password, 8);
   next();
 });
+
 const isPassword = (value) => {
   const passwordRgex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+=[\]{}|;:'",.<>?/`~\\/-]{8,}$/;

@@ -8,21 +8,20 @@ const {
   deleteProject,
   getProjectById,
 } = require("../service/projectService");
-const { getProspectById } = require("../service/prospect_service");
 const getAllRecords = require("../utils/getAllRecords");
 
 const createProject = async (req, res) => {
   try {
     const data = req?.body;
-
+console.log(data)
     if (!data.clientId) {
       return res.status(400).json({ message: "to create project need client" });
     }
-    const pros = await getProspectById(data?.clientId);
-    if (!pros || pros == undefined) {
+    const Client = await  User.findById(data?.clientId);
+    if (!Client || Client == undefined) {
       return res
         .status(400)
-        .json({ message: "there is no prospect byh this client id" });
+        .json({ message: "there is no Client byh this client id" });
     }
 
     const result = await CreateProject(data);
