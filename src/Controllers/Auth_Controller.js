@@ -9,7 +9,7 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "there is no user by this Id" });
     const validePassword = await user.comparePassword(password);
     if (!validePassword)
-      return res.status(400).json({ message: "email or password incorrect " });
+      return res.status(400).json({ message: "email or password incorrect"});
 
     const token = generateToken(user._id);
 

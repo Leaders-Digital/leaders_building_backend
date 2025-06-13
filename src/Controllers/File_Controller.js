@@ -1,11 +1,15 @@
 const path = require("path");
 const File = require("../Models/File");
+const Project = require("../Models/Project");
+
+const {sendPushNotification} = require("../utils/sendPushNotification");
 const AddFile = async (req, res) => {
   try {
     const { refId, modelType } = req.params;
     if (!req.file || !modelType) {
       return res.status(400).json({ message: "failed to upload the file " });
     }
+
     const fileData = {
       name: req.file.filename,
       FilePath: path
@@ -19,6 +23,20 @@ const AddFile = async (req, res) => {
 
     const fileRecord = new File(fileData);
     await fileRecord.save();
+    if (modelType==="Project"){
+      console.log("1");
+      const project=await Project.findById(req.params.refId);
+
+      if(!project){
+        res.status(404).json({message:"Project not found"});
+      }
+      const token=project.expoToken
+      console.log(token)
+      if (token) {
+        await sendPushNotification(token, "new file has been added");
+      }
+
+    }
     return res
       .status(201)
       .json({ message: "file uploaded ", data: fileRecord });

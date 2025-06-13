@@ -30,7 +30,7 @@ const updateProjectPhase = async (req, res) => {
     try {
         const id = req.params.id;
         const data = req.body;
-        const result = await UpdateProject(id, data);
+        const result = await UpdateProjectPhase(id, data);
         if (!result) {
             return res
                 .status(400)

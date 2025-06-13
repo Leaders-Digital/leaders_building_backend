@@ -11,6 +11,5 @@ const ProjectPhasesSchema = new mongoose.Schema({
     startDate: { type: Date },
     finishDate: { type: Date },
     projectId:{ type: mongoose.Schema.Types.ObjectId, ref: "Project" },
-    members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
 module.exports = mongoose.model("ProjectPhases", ProjectPhasesSchema);

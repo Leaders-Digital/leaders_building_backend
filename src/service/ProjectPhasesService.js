@@ -1,5 +1,7 @@
 const getAllRecords = require("../utils/getAllRecords");
 const ProjectPhases = require("../Models/ProjectPhases");
+const {sendPushNotification} = require("../utils/sendPushNotification");
+const Project = require("../Models/Project");
 
 const DeleteProjectPhase = async (phaseId) => {
     const phaseExists = await ProjectPhases.exists({ _id: phaseId });
@@ -17,32 +19,48 @@ const DeleteProjectPhase = async (phaseId) => {
 };
 
 const UpdateProjectPhase = async (phaseId, updatedData) => {
+
+    const updates = [];
+
     const phase = await ProjectPhases.findOne({
         _id: phaseId,
-        isDeleted: false,
     });
 
     if (!phase) {
         throw new Error("There is no project phase by this ID");
     }
 
-    console.log("Phase before:", phase.toObject());
-
     for (const key in updatedData) {
         if (
             updatedData[key] !== undefined &&
             updatedData[key] !== phase[key] &&
             key !== "_id"
-        ) {
-            phase[key] = updatedData[key];
-            phase.markModified(key);
+        ){
+            if (
+                key === "status"
+
+            ) {
+                updates.push(`the status of the ${phase.name} has been updated to ${updatedData.status}`);
+            }
+            {
+                phase[key] = updatedData[key];
+                phase.markModified(key);
+            }
+        }
+
+    }
+    await phase.save();
+    console.log(updates.length)
+
+    const project =await Project.findOne({_id: phase.projectId});
+    console.log(project);
+    if (updates.length && project) {
+        console.log("2222")
+        const token=project.expoToken
+        if (token) {
+            const message=await sendPushNotification(token, updates.join(", "));
         }
     }
-
-    await phase.save();
-
-    console.log("Phase after:", phase.toObject());
-
     return phase;
 };
 
@@ -72,7 +90,7 @@ const GetAllProjectPhases = async (page, limit, filters = {}, search = "") => {
 const GetProjectPhaseById = async (projectId) => {
     const phase = await ProjectPhases.find({
         projectId: projectId,
-    }).populate('members');
+    })
 
     if (!phase) {
         throw new Error("There is no project phase by this ID");
