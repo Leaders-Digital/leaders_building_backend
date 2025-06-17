@@ -8,7 +8,7 @@ const coockieParser = require("cookie-parser");
 const indexRouter = require("./Roots/indexRouter");
 const path = require("path");
 //const responseTime = require("response-time");
-console.log("Hello World");
+console.log("Hello World CI/CD");
 //const { logPerformance } = require("./utils/perfomanceLogger");
 dotenv.config();
 app.use(express.json());
