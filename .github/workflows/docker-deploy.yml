@@ -36,7 +36,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
         script: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/back-building:latest
-          docker stop express-container || true
-          docker rm express-container || true
-          docker run -d --name express-container -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/back-building:latest
+        docker pull ${{ secrets.DOCKER_USERNAME }}/back-building:latest
+        docker stop back-building-container || true
+        docker rm back-building-container || true
+        docker run -d --name back-building-container -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/back-building:latest
