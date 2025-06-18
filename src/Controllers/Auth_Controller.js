@@ -14,12 +14,19 @@ const login = async (req, res) => {
 
     const token = generateToken(user._id);
 
-    return res.cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 24 * 60 * 60 * 1000,
-      })
+    // Set cookie options based on environment
+    const cookieOptions = {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    };
+
+    // Only set secure in production
+    if (process.env.NODE_ENV === "production") {
+      cookieOptions.secure = true;
+    }
+
+    return res.cookie("token", token, cookieOptions)
       .json({
         message: "Login sucessful ",
         user: { email: user.email, userID: user._id, role: user.role },
@@ -60,4 +67,20 @@ const GetCurrentUser = async (req, res) => {
   }
 };
 
-module.exports = { login, logout, GetCurrentUser };
+const testAuth = async (req, res) => {
+  try {
+    // Log cookies for debugging
+    console.log("Cookies received:", req.cookies);
+    console.log("Headers received:", req.headers);
+    
+    return res.status(200).json({ 
+      message: "Test endpoint working",
+      cookies: req.cookies,
+      hasToken: !!req.cookies.token
+    });
+  } catch (e) {
+    return res.status(500).json({ message: e.message });
+  }
+};
+
+module.exports = { login, logout, GetCurrentUser, testAuth };
