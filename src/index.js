@@ -8,6 +8,7 @@ const coockieParser = require("cookie-parser");
 const indexRouter = require("./Roots/indexRouter");
 const path = require("path");
 //const responseTime = require("response-time");
+console.log("Hello World CI/CD just testing");
 //const { logPerformance } = require("./utils/perfomanceLogger");
 dotenv.config();
 app.use(express.json());
@@ -40,7 +41,7 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use(cors(corsOpst));
 connectDB();
 app.use("/api", indexRouter);
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is runing on ${PORT}`);
 });
