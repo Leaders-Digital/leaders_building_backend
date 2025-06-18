@@ -54,7 +54,7 @@ const GetFileByRef = async (req, res) => {
 
     if (!files) {
       return res
-        .status(200)
+        .status(400)
         .json({ message: "there is no files for this ref" });
     }
     return res
@@ -64,4 +64,32 @@ const GetFileByRef = async (req, res) => {
     return res.status(500).json({ message: `internal server error : ${e}` });
   }
 };
-module.exports = { AddFile, GetFileByRef };
+const GetFileById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const files = await File.findById(id);
+
+    if (!files) {
+      return res
+          .status(400)
+          .json({ message: "there is no files for this ref" });
+    }
+    return res
+        .status(200)
+        .json({ messages: "files retrieved with sucess", data: files });
+  } catch (e) {
+    return res.status(500).json({ message: `internal server error : ${e}` });
+  }
+};
+const DeleteFile = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deletedFiles=await File.deleteOne({_id:id});
+    res.status(200).json({deletedFiles:deletedFiles});
+  }catch (e) {
+    return res.status(500).json({ message: `internal server error : ${e}` });
+  }
+}
+
+
+module.exports = { AddFile, GetFileByRef,GetFileById,DeleteFile };

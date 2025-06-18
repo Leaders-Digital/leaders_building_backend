@@ -7,7 +7,8 @@ const getAllRecords = async (
   searchFields = ["name", "lastName", "email", "status"],
   filters = {},
   sortField = "createdAt",
-  objectIdFields = []
+  objectIdFields = [],
+  populateFields = []
 ) => {
   try {
     const { page = 1, limit = 100, search = "", select = "" } = req.query;
@@ -51,13 +52,19 @@ const getAllRecords = async (
     }
 
     const sortOrder = { [sortField]: -1 };
-    const records = await model
+    let query = model
       .find(matchQuery)
       .select("-password")
       .skip(skip)
       .limit(LimitNumber)
-      .sort(sortOrder)
+      .sort(sortOrder);
 
+    // Add population for each field
+    populateFields.forEach(field => {
+      query = query.populate(field);
+    });
+
+    const records = await query;
     const totalItems = await model.countDocuments(matchQuery);
 
     return res.status(200).json({

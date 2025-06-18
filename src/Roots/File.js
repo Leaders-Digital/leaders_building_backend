@@ -1,6 +1,6 @@
 const express = require("express");
 const createUploadMiddleware = require("../Middlewares/GenericUpload");
-const { AddFile, GetFileByRef } = require("../Controllers/File_Controller");
+const { AddFile, GetFileByRef,DeleteFile,GetFileById } = require("../Controllers/File_Controller");
 const FileRouter = express.Router();
 
 const uploadFile = createUploadMiddleware({
@@ -12,5 +12,8 @@ const uploadFile = createUploadMiddleware({
 
 FileRouter.post("/addFile/:modelType/:refId", uploadFile, AddFile);
 FileRouter.get("/getFile/:id", GetFileByRef);
+FileRouter.get("/getFileById/:id", GetFileById);
+
+FileRouter.delete("/delete/:id",DeleteFile)
 
 module.exports = FileRouter;

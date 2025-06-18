@@ -44,7 +44,7 @@ const updateProjectPhase = async (req, res) => {
 const deleteProjectPhase = async (req, res) => {
     try {
         const id = req?.params?.id;
-        const result = await deleteProject(id);
+        const result = await ProjectPhases.deleteOne({_id:id});
 
         if (!result) {
             return res
@@ -69,7 +69,16 @@ const getPhasesByProjectId = async (req, res) => {
         return res.status(500).json({ message: e.message });
     }
 };
+const getAllProjectPhases = async (req, res) => {
 
+    try{
+        const Phases= await ProjectPhases.find()
+        res.status(200).json( Phases );
+    }
+    catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+}
 
 
 
@@ -78,4 +87,5 @@ module.exports = {
     deleteProjectPhase,
     updateProjectPhase,
     getPhasesByProjectId,
+    getAllProjectPhases
 };
