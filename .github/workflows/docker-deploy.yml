@@ -35,8 +35,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
-         script: |
-          cd /home/ubuntu/workspace
-          docker-compose pull
-          docker rm -f back-building || true
-          docker-compose up -d --remove-orphans
+          script: |
+            cd /home/ubuntu/workspace
+            docker-compose pull
+            docker rm -f back-building || true
+            docker-compose up -d --remove-orphans
