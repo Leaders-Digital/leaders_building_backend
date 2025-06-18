@@ -9,6 +9,7 @@ const {
   getProjectById,
 } = require("../service/projectService");
 const getAllRecords = require("../utils/getAllRecords");
+const {populate} = require("dotenv");
 
 const createProject = async (req, res) => {
   try {
@@ -102,7 +103,8 @@ const GetProjectsByClientId = async (req, res) => {
       return res.status(404).json({ message: "client not found" });
     }
     const projects = await Project.find({ clientId: clientId })
-      .populate("photos");
+      .populate("photos")
+      .populate("members");
     res.status(200).json({ data: projects });
   } catch (e) {
     return res.status(500).json({ message: e.message });
