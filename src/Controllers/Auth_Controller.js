@@ -3,28 +3,34 @@ const { generateToken } = require("../utils/JWTUtils");
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Login attempt for email:", email);
+    
     const user = await User.findOne({ email: email });
-    if (!user)
+    if (!user) {
+      console.log("User not found for email:", email);
       return res.status(400).json({ message: "there is no user by this Id" });
+    }
+    
     const validePassword = await user.comparePassword(password);
     if (!validePassword){
+      console.log("Invalid password for email:", email);
       return res.status(404).json({ message: "email or password incorrect"});
-
     }
 
     const token = generateToken(user._id);
+    console.log("Token generated for user:", user._id);
 
     // Set cookie options based on environment
     const cookieOptions = {
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: true,
+      domain: '.leaders-building.com' 
     };
 
-    // Only set secure in production
-    if (process.env.NODE_ENV === "production") {
-      cookieOptions.secure = true;
-    }
+    console.log("Cookie options:", cookieOptions);
+    console.log("NODE_ENV:", process.env.NODE_ENV);
 
     return res.cookie("token", token, cookieOptions)
       .json({
@@ -32,6 +38,7 @@ const login = async (req, res) => {
         user: { email: user.email, userID: user._id, role: user.role },
       });
   } catch (e) {
+    console.error("Login error:", e);
     return res
       .status(404)
       .json({ message: `internal server error ${e.message} ` });
