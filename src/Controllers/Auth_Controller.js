@@ -20,7 +20,6 @@ const login = async (req, res) => {
     const token = generateToken(user._id);
     console.log("Token generated for user:", user._id);
 
-    // Set cookie options based on environment
     const cookieOptions = {
       httpOnly: true,
       sameSite: "none",
