@@ -28,7 +28,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/back-building:latest
 
-      - name: SSH and restart container
+      - name: SSH and deploy with docker-compose
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -36,7 +36,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/back-building:latest
-            docker stop back-building || true
-            docker rm back-building || true
-            docker run -d --name back-building -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/back-building:latest
+            cd /home/ubuntu/workspace
+            docker-compose pull
+            docker rm -f back-building || true
+            docker-compose up -d --remove-orphans
