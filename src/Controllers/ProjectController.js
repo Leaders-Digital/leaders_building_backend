@@ -13,7 +13,6 @@ const getAllRecords = require("../utils/getAllRecords");
 const createProject = async (req, res) => {
   try {
     const data = req?.body;
-console.log(data)
     if (!data.clientId) {
       return res.status(400).json({ message: "to create project need client" });
     }
@@ -77,8 +76,8 @@ const getAllProjects = async (req, res) => {
       "location",
       "projectId",
     ];
-    await getAllRecords(Project, req, res, searchFields, filters);
-
+    const populateFields = ["clientId", "photos", "members"];
+    await getAllRecords(Project, req, res, searchFields, filters, "createdAt", [], populateFields);
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
@@ -102,9 +101,8 @@ const GetProjectsByClientId = async (req, res) => {
     if (!client) {
       return res.status(404).json({ message: "client not found" });
     }
-    const projects = await Project.find({ clientId: clientId }).populate(
-      "members"
-    );
+    const projects = await Project.find({ clientId: clientId })
+      .populate("photos");
     res.status(200).json({ data: projects });
   } catch (e) {
     return res.status(500).json({ message: e.message });

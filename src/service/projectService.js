@@ -68,7 +68,8 @@ const deleteProject = async (id) => {
 };
 const getProjectById = async (id) => {
   try {
-    const project = await Project.findOne({ _id: id }).populate("clientId");
+    const project = await Project.findOne({ _id: id })
+      .populate("photos");
     if (!project) {
       throw new Error("there is no proejct by this id");
     }

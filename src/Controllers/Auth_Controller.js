@@ -7,15 +7,14 @@ const login = async (req, res) => {
     if (!user)
       return res.status(400).json({ message: "there is no user by this Id" });
     const validePassword = await user.comparePassword(password);
-    console.log(validePassword);
-    if (!validePassword)
-      return res.status(400).json({ message: "email or password incorrect"});
+    if (!validePassword){
+      return res.status(404).json({ message: "email or password incorrect"});
+
+    }
 
     const token = generateToken(user._id);
 
-    return res
-
-      .cookie("token", token, {
+    return res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",

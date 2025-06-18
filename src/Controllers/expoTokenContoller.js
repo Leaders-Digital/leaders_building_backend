@@ -2,8 +2,8 @@ const Project = require("../Models/Project");
 
 exports.saveExpoToken = async (req, res) => {
     const {userId,token}=req.body;
-    
-   if (!clientId || !token) {
+
+   if (!userId || !token) {
        return res.status(400).json({message:'you must provide clientId and token'});
    }
    try{

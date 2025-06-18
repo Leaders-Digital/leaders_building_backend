@@ -5,7 +5,7 @@ const {
   updateUser,
   uploaProfilePic,
   getAllUsers,
-  getAllClients,
+  getAllClients, getClientById,
 } = require("../Controllers/User_Controller");
 const upload = require("../Middlewares/upload");
 const {
@@ -19,7 +19,7 @@ userRouter.put("/deleteUser/:id", deleteUser);
 userRouter.put("/updateUser/:id", updateUser);
 userRouter.get("/getAllUsers", getAllUsers);
 userRouter.get("/getAllClients", getAllClients);
-userRouter.get("/getClientById/:id", getAllClients);
+userRouter.get("/getClientById/:id", getClientById);
 
 userRouter.put("/uploadPic/:id", upload.single("profilePic"), uploaProfilePic);
 userRouter.get("/ArchivedUsers", getAllArchivedUsers);

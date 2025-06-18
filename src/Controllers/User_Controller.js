@@ -5,6 +5,7 @@ const { stringify } = require("querystring");
 const {generatePassword} = require("../utils/generatePassword");
 const sendEmail = require("../utils/mailSender");
 const Prospect = require("../Models/Prospect");
+const Project = require("../Models/Project");
 
 const createUser = async (req, res) => {
   const user = req.body;
@@ -169,6 +170,7 @@ const getAllClients = async (req, res) => {
 
     const skip = (PageNumber - 1) * LimitNumber;
     const filter = { isDeleted: false, role: 'client' };
+
     if (role && role !== "undefined") filter.role = role;
 
     if (search) {
@@ -183,24 +185,43 @@ const getAllClients = async (req, res) => {
         .select("-password")
         .skip(skip)
         .limit(LimitNumber)
-        .sort({ createdAt: -1 });
+        .sort({ createdAt: -1 })
+        .lean(); // Convert to plain objects
+
+    const clientIds = Users.map((u) => u._id);
+    const projects = await Project.find({ clientId: { $in: clientIds } }).select("name clientId");
+
+    const clientProjectsMap = {};
+    projects.forEach((project) => {
+      const id = project.clientId.toString();
+      if (!clientProjectsMap[id]) clientProjectsMap[id] = [];
+      clientProjectsMap[id].push(project.name);
+    });
+
+    const UsersWithProjects = Users.map((user) => ({
+      ...user,
+      projects: clientProjectsMap[user._id.toString()] || [],
+    }));
 
     const totalItems = await User.countDocuments(filter);
-    return res.status(201).json({
-      data: Users,
+
+    return res.status(200).json({
+      data: UsersWithProjects,
       totalItems: totalItems,
       totalPages: Math.ceil(totalItems / LimitNumber),
       currentPage: PageNumber,
     });
   } catch (e) {
-    return res.status(201).json({ message: `internal server error : ${e}` });
+    return res.status(500).json({ message: `internal server error : ${e}` });
   }
 };
+
 const getClientById = async (req, res) => {
   const {id} = req?.params;
   try {
 
-  const Client= await User.findById(id)
+  const Client= await User.findById(id).select("-password").populate('clientId');
+
     if (!Client){
       res.status(404).json({ message: "client not found" });
     }
