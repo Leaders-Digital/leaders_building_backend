@@ -70,7 +70,8 @@ const getProjectById = async (id) => {
   try {
     const project = await Project.findOne({ _id: id })
       .populate("photos")
-      .populate("members");
+      .populate("members")
+        .populate('phases')
 
     if (!project) {
       throw new Error("there is no proejct by this id");
