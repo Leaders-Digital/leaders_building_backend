@@ -1,7 +1,21 @@
 const mongoose = require("mongoose");
 
-const ProjectPhasesSchema = new mongoose.Schema({
-    name: { type: String,required: true },
-    description: { type: String,required: true },
+const SubPhaseSchema = new mongoose.Schema({
+  name: String,
+  status: String,
+  pourcentage: String,
+  startDate: String,
+  finishDate: String
 });
-module.exports = mongoose.model("ProjectPhases", ProjectPhasesSchema);
+
+const PhaseSchema = new mongoose.Schema({
+  name: String,
+  status: String,
+  pourcentage: String,
+  startDate: String,
+  finishDate: String,
+  projectId: { type: mongoose.Schema.Types.ObjectId, ref: "Project", required: true },
+  subphases: [SubPhaseSchema]
+}, { timestamps: true });
+
+module.exports = mongoose.model("ProjectPhases", PhaseSchema);

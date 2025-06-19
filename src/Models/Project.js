@@ -24,7 +24,7 @@ const ProjectSchema = new mongoose.Schema({
   video: [{ type: mongoose.Schema.Types.Mixed }],
   lat: { type: String },
   lon: { type: String },
-  phases: [{ type: mongoose.Schema.Types.Mixed }],
+  phases: [{ type: mongoose.Schema.Types.ObjectId, ref: "ProjectPhases" }],
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
 module.exports = mongoose.model("Project", ProjectSchema);

@@ -9,6 +9,7 @@ const ActivityRouter = require("./ActivityRoute");
 const DevisRouter = require("./DevisRoote");
 const ProjectRouter = require("./ProjectRouter");
 const ProjectPhaseRouter = require("./ProjectPhasesRouter");
+const SubPhaseRouter = require("./SubPhaseRouter");
 const router = express.Router();
 
 router.use("/admin", userRouter);
@@ -20,5 +21,6 @@ router.use("/activity", ActivityRouter);
 router.use("/devis", DevisRouter);
 router.use("/project", ProjectRouter);
 router.use("/projectPhase", ProjectPhaseRouter);
+router.use("/subPhase", SubPhaseRouter);
 
 module.exports = router;

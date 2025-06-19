@@ -12,6 +12,7 @@ const login = async (req, res) => {
     }
     
     const validePassword = await user.comparePassword(password);
+
     if (!validePassword){
       console.log("Invalid password for email:", email);
       return res.status(404).json({ message: "email or password incorrect"});

@@ -24,7 +24,7 @@ const UpdateProjectPhase = async (phaseId, updatedData) => {
 
     const phase = await ProjectPhases.findOne({
         _id: phaseId,
-    });
+    })
 
     if (!phase) {
         throw new Error("There is no project phase by this ID");
@@ -68,7 +68,6 @@ const GetAllProjectPhases = async (page, limit, filters = {}, search = "") => {
     const extraQuery = { isDeleted: false };
 
     const searchFields = ["name", "status.type"];
-
     const result = await getAllRecords(
         ProjectPhases,
         page,
@@ -76,7 +75,7 @@ const GetAllProjectPhases = async (page, limit, filters = {}, search = "") => {
         filters,
         search,
         extraQuery,
-        searchFields
+        searchFields,
     );
 
     return {
