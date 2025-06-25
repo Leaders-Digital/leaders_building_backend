@@ -55,7 +55,6 @@ const UpdateProjectPhase = async (phaseId, updatedData) => {
     const project =await Project.findOne({_id: phase.projectId});
     console.log(project);
     if (updates.length && project) {
-        console.log("2222")
         const token=project.expoToken
         if (token) {
             const message=await sendPushNotification(token, updates.join(", "));

@@ -27,4 +27,5 @@ const ProjectSchema = new mongoose.Schema({
   phases: [{ type: mongoose.Schema.Types.ObjectId, ref: "ProjectPhases" }],
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
-module.exports = mongoose.model("Project", ProjectSchema);
+
+module.exports = mongoose.models.Project || mongoose.model("Project", ProjectSchema);

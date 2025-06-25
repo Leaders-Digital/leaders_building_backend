@@ -12,10 +12,11 @@ const login = async (req, res) => {
     }
     
     const validePassword = await user.comparePassword(password);
+    console.log(validePassword);
 
     if (!validePassword){
       console.log("Invalid password for email:", email);
-      return res.status(404).json({ message: "email or password incorrect"});
+      return res.status(400).json({ message: "email or password incorrect"});
     }
 
     const token = generateToken(user._id);
@@ -26,7 +27,7 @@ const login = async (req, res) => {
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
       secure: true,
-      //domain: process.env.NODE_ENV === 'production' ? '.leaders-building.com' : undefined,
+      domain: process.env.NODE_ENV === 'production' ? '.leaders-building.com' : undefined,
     };
 
     console.log("Cookie options:", cookieOptions);

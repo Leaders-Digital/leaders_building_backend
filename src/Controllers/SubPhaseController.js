@@ -39,7 +39,6 @@ const updateSubPhase = async (req, res) => {
       return res.status(404).json({ message: "Phase not found" });
     }
 
-    // Find and update the specific subphase
     const subPhaseIndex = phase.subphases.findIndex(
       sub => sub._id.toString() === subPhaseId
     );
@@ -48,7 +47,6 @@ const updateSubPhase = async (req, res) => {
       return res.status(404).json({ message: "SubPhase not found" });
     }
 
-    // Update the subphase
     phase.subphases[subPhaseIndex] = {
       ...phase.subphases[subPhaseIndex].toObject(),
       ...subPhaseData

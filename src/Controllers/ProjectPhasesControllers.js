@@ -14,12 +14,10 @@ const createProjectPhase = async (req, res) => {
     try {
         const data = req.body;
         
-        // Validate that projectId is provided
         if (!data.projectId) {
             return res.status(400).json({ message: "Project ID is required" });
         }
 
-        // Check if project exists
         const project = await Project.findById(data.projectId);
         if (!project) {
             return res.status(404).json({ message: "Project not found" });
@@ -31,7 +29,6 @@ const createProjectPhase = async (req, res) => {
             return res.status(400).json({ message: "A problem occurred during the creation of the project phase." });
         }
 
-        // Add the phase to the project's phases array
         project.phases.push(result._id);
         await project.save();
 
@@ -61,13 +58,11 @@ const deleteProjectPhase = async (req, res) => {
     try {
         const id = req?.params?.id;
         
-        // Get the phase to find its project
         const phase = await ProjectPhases.findById(id);
         if (!phase) {
             return res.status(404).json({ message: "Phase not found" });
         }
 
-        // Remove the phase from the project's phases array
         const project = await Project.findById(phase.projectId);
         if (project) {
             project.phases = project.phases.filter(phaseId => phaseId.toString() !== id);
@@ -91,7 +86,6 @@ const getPhasesByProjectId = async (req, res) => {
     try {
         const {id} = req.params;
         
-        // Get project with populated phases
         const project = await Project.findById(id).populate('phases');
         if (!project) {
             return res.status(404).json({ message: "Project not found" });

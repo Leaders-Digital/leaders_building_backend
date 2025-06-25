@@ -24,18 +24,16 @@ const AddFile = async (req, res) => {
     const fileRecord = new File(fileData);
     await fileRecord.save();
     if (modelType==="Project"){
-      console.log("1");
+
       const project=await Project.findById(req.params.refId);
 
       if(!project){
         res.status(404).json({message:"Project not found"});
       }
       const token=project.expoToken
-      console.log(token)
       if (token) {
         await sendPushNotification(token, "new file has been added");
       }
-
     }
     return res
       .status(201)
