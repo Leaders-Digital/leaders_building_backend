@@ -3,11 +3,9 @@ const { generateToken } = require("../utils/JWTUtils");
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("Login attempt for email:", email);
-    
+
     const user = await User.findOne({ email: email });
     if (!user) {
-      console.log("User not found for email:", email);
       return res.status(400).json({ message: "there is no user by this Id" });
     }
     
@@ -15,12 +13,10 @@ const login = async (req, res) => {
     console.log(validePassword);
 
     if (!validePassword){
-      console.log("Invalid password for email:", email);
       return res.status(400).json({ message: "email or password incorrect"});
     }
 
     const token = generateToken(user._id);
-    console.log("Token generated for user:", user._id);
 
     const cookieOptions = {
       httpOnly: true,
