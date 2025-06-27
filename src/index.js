@@ -19,6 +19,7 @@ const corsOpst = {
     "http://localhost:3008",
     "http://localhost:3002",
     "http://51.68.172.145:3002",
+    "https://serveur.leaders-building.com",
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"],
   allowHeaders: [

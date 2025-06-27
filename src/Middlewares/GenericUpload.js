@@ -3,11 +3,11 @@ const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const createUploadMiddleware = ({
-  directory,
-  fileTypes,
-  maxSize,
-  fieldName,
-}) => {
+                                  directory,
+                                  fileTypes,
+                                  maxSize,
+                                  fieldName,
+                                }) => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       const uploadDir = `./uploads/${directory}`;
@@ -19,9 +19,9 @@ const createUploadMiddleware = ({
     },
     filename: (req, file, cb) => {
       const originalFileName = path
-        .basename(file.originalname)
-        .replace(/\s+/g, "_")
-        .replace(/[^\w.-]/g, "");
+          .basename(file.originalname)
+          .replace(/\s+/g, "_")
+          .replace(/[^\w.-]/g, "");
 
       const fileUuid = uuidv4();
       const fileExtension = path.extname(file.originalname);
@@ -34,7 +34,7 @@ const createUploadMiddleware = ({
     limits: { fileSize: maxSize },
     fileFilter: (req, file, cb) => {
       const allowedExtensions = fileTypes.map(
-        (type) => `.${type.toLowerCase()}`
+          (type) => `.${type.toLowerCase()}`
       );
       const allowedMimeTypes = fileTypes.map((type) => `application/${type}`);
       const fileExt = path.extname(file.originalname).toLowerCase();
@@ -42,7 +42,7 @@ const createUploadMiddleware = ({
 
       const isAllowedExt = allowedExtensions.includes(fileExt);
       const isAllowedMime = allowedMimeTypes.some((mime) =>
-        fileMime.includes(mime)
+          fileMime.includes(mime)
       );
 
       if (isAllowedExt || isAllowedMime) {
@@ -50,9 +50,9 @@ const createUploadMiddleware = ({
       }
 
       cb(
-        new Error(
-          `Invalid file type. Allowed types are: ${fileTypes.join(", ")}`
-        )
+          new Error(
+              `Invalid file type. Allowed types are: ${fileTypes.join(", ")}`
+          )
       );
     },
   }).single(fieldName);
