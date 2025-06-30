@@ -74,7 +74,26 @@ const createUser = async (req, res) => {
 </div>
 `;
 
-      await sendEmail({ to: user.email, subject, html });
+      const mailOptions = {
+        from: `"Leaders-building" <${process.env.EMAIL_USER}>`,
+        to: user.email,
+        subject,
+        html,
+        attachments: [
+          {
+            filename: "logo.png",
+            path: path.join(__dirname, "src", "..", "..", "Images", "logo.png"),
+            cid: "logo",
+          },
+          {
+            filename: "buildingPDF.png",
+            path: path.join(__dirname, "src", "..", "..", "Images", "buildingPDF.png"),
+            cid: "buildingPDF",
+          },
+        ],
+      };
+
+      await sendEmail(mailOptions);
 
     }
 
