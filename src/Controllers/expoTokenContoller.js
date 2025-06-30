@@ -9,12 +9,11 @@ exports.saveExpoToken = async (req, res) => {
    try{
        const updatedProject= await Project.findOneAndUpdate({clientId: userId},{expoToken:token}, {new:true});
        if(!updatedProject){
-           res.status(404).json({message:'Project not found'});
+           return res.status(404).json({message:'Project not found'});
        }
-       res.status(200).json(updatedProject);
+       return res.status(200).json(updatedProject);
    }catch (error) {
-       res.status(500).json({message:'could not find the project'});
+       return res.status(500).json({message:'could not find the project'});
    }
-
 };
 

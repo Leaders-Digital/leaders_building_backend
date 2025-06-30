@@ -37,6 +37,8 @@ jobs:
           passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
           script: |
             cd /home/ubuntu/workspace
+            # Create upload directory if it doesn't exist
+            mkdir -p /home/ubuntu/workspace/upload
             docker-compose pull
             docker rm -f back-building || true
             docker-compose up -d --remove-orphans
