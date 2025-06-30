@@ -20,7 +20,7 @@ const sendEmail = async ({ to, subject, html }) => {
         attachments: [
             {
                 filename: "buildingPDF.png",
-                path: path.join(__dirname, "src","..",".." ,"Images", "buildingPDF.png"),
+                path: path.join(__dirname, "src","..",".." ,"Images", "logo.png"),
                 cid: "logo",
             },
         ],
