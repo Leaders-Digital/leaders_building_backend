@@ -24,25 +24,54 @@ const createUser = async (req, res) => {
       const generatedPassword=generatePassword()
       user.password = generatedPassword;
       const html = `
-      <div style="font-family: Arial, sans-serif; background-color: black; padding: 30px;">
-    <div style="max-width: 600px; margin: auto; background: black; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-      <div style="background-color: black; color: white; padding: 20px; text-align: center;">
-<img src="cid:logo" alt="Logo" style="height: 60px; margin-bottom: 10px;" />
-        <h2 style="margin: 0; color: white">Bienvenue chez Leaders-Building</h2>
-      </div>
-      <div style="padding: 30px; color: #333;">
-        <p>Bonjour <b>${user.name}</b>,</p>
-        <p>Votre compte a été créé avec succès. Vous pouvez dès maintenant accéder à notre application mobile.</p>
-        <p><b>Voici votre mot de passe temporaire :</b></p>
-        <p style="font-size: 20px; background-color: #f0f0f0; padding: 10px 15px; border-radius: 5px; display: inline-block;">
-          ${generatedPassword}
-        </p>
-        <p>Nous vous recommandons de le changer après votre première connexion.</p>
-        <a href="https://leaders-building.com/mobileApp.html" style="display: inline-block; margin-top: 20px; background-color: #FFD700; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Télécharger l'application</a>
-        <p style="margin-top: 30px;background-color: black">Cordialement,<br>L’équipe Leaders-Building</p>
-      </div>
+<div style="font-family: Arial, sans-serif; background-color: #f6f6f6; padding: 30px;">
+  <div class="container" style="max-width: 600px; margin: auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <div class="header" style="background-color: #000000; color: white; padding: 20px; text-align: center;">
+      <!-- Light mode logo (default) -->
+      <img src="cid:logo" alt="Logo" class="logo-light" style="height: 60px; margin-bottom: 10px; display: block;" />
+      <!-- Dark mode logo (for dark mode) -->
+      <img src="cid:buildingPDF" alt="Logo" class="logo-dark" style="height: 60px; margin-bottom: 10px; display: none;" />
+      <h2 style="margin: 0;">Bienvenue chez Leaders-Building</h2>
+    </div>
+    <div style="padding: 30px; color: #333;">
+      <p>Bonjour <b>${user.name}</b>,</p>
+      <p>Votre compte a été créé avec succès. Vous pouvez dès maintenant accéder à notre application mobile.</p>
+      <p><b>Voici votre mot de passe temporaire :</b></p>
+      <p class="password-box" style="font-size: 20px; background-color: #f0f0f0; padding: 10px 15px; border-radius: 5px; display: inline-block;">
+        ${generatedPassword}
+      </p>
+      <p>Nous vous recommandons de le changer après votre première connexion.</p>
+      <a href="https://leaders-building.com/mobileApp.html" class="button" style="display: inline-block; margin-top: 20px; background-color: #FFD700; color: #000000; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Accéder à l'application</a>
+      <p style="margin-top: 30px;">Cordialement,<br>L'équipe Leaders-Building</p>
     </div>
   </div>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      body, div {
+        background-color: #1a1a1a !important;
+        color: #e0e0e0 !important;
+      }
+      .container {
+        background: #2a2a2a !important;
+        box-shadow: 0 0 10px rgba(255,255,255,0.1) !important;
+      }
+      .password-box {
+        background-color: #3a3a3a !important;
+        color: #e0e0e0 !important;
+      }
+      .button {
+        background-color: #FFD700 !important;
+        color: #000000 !important;
+      }
+      .header {
+        background-color: #000000 !important;
+        color: white !important;
+      }
+      .logo-light { display: none !important; }
+      .logo-dark { display: block !important; }
+    }
+  </style>
+</div>
 `;
 
       await sendEmail({ to: user.email, subject, html });
