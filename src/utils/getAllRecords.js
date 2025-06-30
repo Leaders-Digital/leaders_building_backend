@@ -59,7 +59,7 @@ const getAllRecords = async (
       .limit(LimitNumber)
       .sort(sortOrder);
 
-    // Add population for each field
+
     populateFields.forEach(field => {
       query = query.populate(field);
     });
