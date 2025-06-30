@@ -26,12 +26,9 @@ const createUser = async (req, res) => {
       const html = `
 <div style="font-family: Arial, sans-serif; background-color: #f6f6f6; padding: 30px;">
   <div class="container" style="max-width: 600px; margin: auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-    <div class="header" style="background-color: #000000; color: white; padding: 20px; text-align: center;">
-      <!-- Light mode logo (default) -->
-      <img src="cid:logo" alt="Logo" class="logo-light" style="height: 60px; margin-bottom: 10px; display: block;" />
-      <!-- Dark mode logo (for dark mode) -->
-      <img src="cid:buildingPDF" alt="Logo" class="logo-dark" style="height: 60px; margin-bottom: 10px; display: none;" />
-      <h2 style="margin: 0;">Bienvenue chez Leaders-Building</h2>
+    <div class="header" style="background-color: #333333; color: #ffffff; padding: 20px; text-align: center;">
+      <img src="cid:logo" alt="Logo" style="height: 60px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;" />
+      <h2 style="margin: 0; color: #ffffff;">Bienvenue chez Leaders-Building</h2>
     </div>
     <div style="padding: 30px; color: #333;">
       <p>Bonjour <b>${user.name}</b>,</p>
@@ -41,7 +38,17 @@ const createUser = async (req, res) => {
         ${generatedPassword}
       </p>
       <p>Nous vous recommandons de le changer après votre première connexion.</p>
-      <a href="https://leaders-building.com/mobileApp.html" class="button" style="display: inline-block; margin-top: 20px; background-color: #FFD700; color: #000000; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Accéder à l'application</a>
+      <a href="https://leaders-building.com/mobileApp.html"
+         style="display: inline-block;
+                margin-top: 20px;
+                background-color: #FFD700;
+                color: #222222;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-decoration: none;
+                font-weight: bold;">
+        Télécharger l'application
+      </a>
       <p style="margin-top: 30px;">Cordialement,<br>L'équipe Leaders-Building</p>
     </div>
   </div>
@@ -63,12 +70,6 @@ const createUser = async (req, res) => {
         background-color: #FFD700 !important;
         color: #000000 !important;
       }
-      .header {
-        background-color: #000000 !important;
-        color: white !important;
-      }
-      .logo-light { display: none !important; }
-      .logo-dark { display: block !important; }
     }
   </style>
 </div>
@@ -84,11 +85,6 @@ const createUser = async (req, res) => {
             filename: "logo.png",
             path: path.join(__dirname, "src", "..", "..", "Images", "logo.png"),
             cid: "logo",
-          },
-          {
-            filename: "buildingPDF.png",
-            path: path.join(__dirname, "src", "..", "..", "Images", "buildingPDF.png"),
-            cid: "buildingPDF",
           },
         ],
       };
