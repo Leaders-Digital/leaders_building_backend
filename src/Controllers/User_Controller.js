@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
       const generatedPassword=generatePassword()
       user.password = generatedPassword;
       const html = `
-  <div style="font-family: Arial, sans-serif; background-color: #f6f6f6; padding: 30px;">
+      <div style="font-family: Arial, sans-serif; background-color: black; padding: 30px;">
     <div style="max-width: 600px; margin: auto; background: black; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
       <div style="background-color: black; color: white; padding: 20px; text-align: center;">
 <img src="cid:logo" alt="Logo" style="height: 60px; margin-bottom: 10px;" />
