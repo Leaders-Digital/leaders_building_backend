@@ -26,7 +26,7 @@ const createUser = async (req, res) => {
       const html = `
   <div style="font-family: Arial, sans-serif; background-color: #f6f6f6; padding: 30px;">
     <div style="max-width: 600px; margin: auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-      <div style="background-color: #005c80; color: white; padding: 20px; text-align: center;">
+      <div style="background-color: #000000; color: white; padding: 20px; text-align: center;">
 <img src="cid:logo" alt="Logo" style="height: 60px; margin-bottom: 10px;" />
         <h2 style="margin: 0;">Bienvenue chez Leaders-Building</h2>
       </div>
@@ -38,8 +38,8 @@ const createUser = async (req, res) => {
           ${generatedPassword}
         </p>
         <p>Nous vous recommandons de le changer après votre première connexion.</p>
-        <a href="https://play.google.com/store" style="display: inline-block; margin-top: 20px; background-color: #004080; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Accéder à l'application</a>
-        <p style="margin-top: 30px;">Cordialement,<br>L’équipe Leaders-Building</p>
+        <a href="https://leaders-building.com/mobileApp.html" style="display: inline-block; margin-top: 20px; background-color: #004080; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Télécharger l'application</a>
+        <p style="margin-top: 30px;background-color: #FFD700">Cordialement,<br>L’équipe Leaders-Building</p>
       </div>
     </div>
   </div>
