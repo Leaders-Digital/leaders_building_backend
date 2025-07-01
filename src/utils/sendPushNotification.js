@@ -1,6 +1,7 @@
 export async function sendPushNotification(expoToken, message) {
     if (!expoToken) return;
-    await fetch("https://exp.host/--/api/v2/push/send", {
+    await fetch("https://exp.host/--/api/v2/push/send?useFcmV1=true", {
+
         method: "POST",
         headers: {
             Accept: "application/json",
