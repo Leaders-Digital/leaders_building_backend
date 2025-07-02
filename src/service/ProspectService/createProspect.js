@@ -61,7 +61,8 @@ const createProspectt = async (data) => {
     source,
     agence: source === "agence" ? agence : {},
     socialMedia: source === "rs" ? socialMedia : {},
-    otherSourceDescription: source === "Other" ? otherSourceDescription : null,
+    otherSourceDescription: source === "autre" ? otherSourceDescription :
+        source === "Site Web" ? "Site web" : null,
     service: service,
     profilePicId: profilePicId,
     percent,
@@ -75,4 +76,6 @@ const createProspectt = async (data) => {
   await newprospect.save();
   return newprospect;
 };
+
+
 module.exports = { createProspectt };

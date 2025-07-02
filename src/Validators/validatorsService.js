@@ -6,7 +6,7 @@ const validateRequiredFields = (data) => {
 };
 
 const validateSource = (source, data) => {
-  const allowedSources = ["agence", "rs", "Other"];
+  const allowedSources = ["agence", "rs", "Site Web", "autre"];
   if (!allowedSources.includes(source)) {
     throw new Error("Source is not valid");
   }
@@ -26,8 +26,8 @@ const validateSource = (source, data) => {
     }
   }
 
-  if (source === "Other" && !data.otherSourceDescription) {
-    throw new Error("A description is required for 'Other' source.");
+  if (source === "autre" && !data.otherSourceDescription) {
+    throw new Error("A description is required for 'Autre' source.");
   }
 };
 

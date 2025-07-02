@@ -31,8 +31,15 @@ const createUploadMiddleware = ({
   });
   const upload = multer({
     storage: storage,
-    limits: { fileSize: maxSize },
+    limits: { 
+      fileSize: maxSize,
+      files: 1 // Only allow 1 file at a time
+    },
     fileFilter: (req, file, cb) => {
+      console.log("Multer fileFilter called");
+      console.log("File:", file);
+      console.log("Max size:", maxSize);
+      console.log("File size:", file.size);
       const allowedExtensions = fileTypes.map(
           (type) => `.${type.toLowerCase()}`
       );
@@ -56,6 +63,20 @@ const createUploadMiddleware = ({
       );
     },
   }).single(fieldName);
-  return upload;
+  
+  // Add error handling wrapper
+  return (req, res, next) => {
+    upload(req, res, (err) => {
+      if (err) {
+        console.log("Multer error:", err);
+        if (err instanceof multer.MulterError) {
+          console.log("Multer error code:", err.code);
+          console.log("Multer error message:", err.message);
+        }
+        return res.status(400).json({ message: err.message });
+      }
+      next();
+    });
+  };
 };
 module.exports = createUploadMiddleware;

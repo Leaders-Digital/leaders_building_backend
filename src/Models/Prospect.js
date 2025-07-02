@@ -89,7 +89,7 @@ const ProspectSchema = new mongoose.Schema(
     source: {
       type: String,
       required: true,
-      enum: ["agence", "rs", "site"],
+      enum: ["agence", "rs", "Site Web", "autre"],
     },
     agence: {
       name: { type: String },
