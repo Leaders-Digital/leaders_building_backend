@@ -31,7 +31,10 @@ const createUploadMiddleware = ({
   });
   const upload = multer({
     storage: storage,
-    limits: { fileSize: maxSize },
+    limits: { 
+      fileSize: maxSize,
+      files: 1 // Only allow 1 file at a time
+    },
     fileFilter: (req, file, cb) => {
       const allowedExtensions = fileTypes.map(
           (type) => `.${type.toLowerCase()}`

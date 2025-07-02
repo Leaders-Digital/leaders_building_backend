@@ -7,7 +7,7 @@ const AddFile = async (req, res) => {
   try {
     const { refId, modelType } = req.params;
     if (!req.file || !modelType) {
-      return res.status(400).json({ message: "failed to upload the file " });
+      return res.status(400).json({ message: "Failed to upload the file. Please ensure a file is selected and try again." });
     }
 
     const fileData = {
