@@ -13,16 +13,26 @@ console.log("Hello World CI/CD just testing");
 dotenv.config();
 app.use(express.json());
 app.use(coockieParser());
-const corsOpst = {
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:3008",
-    "http://localhost:3002",
-    "http://51.68.172.145:3002",
-    "https://serveur.leaders-building.com",
-  ],
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "http://localhost:3008",
+      "http://localhost:3002",
+      "http://51.68.172.145:3002",
+      "https://crm.leaders-building.com",
+    ];
+
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"],
-  allowHeaders: [
+  allowedHeaders: [
     "Origin",
     "X-Requested-With",
     "Content-Type",
@@ -34,13 +44,17 @@ const corsOpst = {
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
+
+// Handle preflight requests
+app.options("*", cors(corsOptions));
+
 /*app.use(
   responseTime((req, res, time) => {
     logPerformance(req, res, time);
   })
 );*/
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
-app.use(cors(corsOpst));
+app.use(cors(corsOptions));
 connectDB();
 app.use("/api", indexRouter);
 const PORT = process.env.PORT || 8000;
