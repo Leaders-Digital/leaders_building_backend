@@ -5,6 +5,8 @@ const {
 
 const getAllRecords = require("../utils/getAllRecords");
 const prospectService = require("../service/prospect_service");
+
+
 const createProspect = async (req, res) => {
   try {
     const prospect = await createProspectt(req.body);
