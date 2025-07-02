@@ -6,9 +6,25 @@ const FileRouter = express.Router();
 
 // Add CORS headers specifically for file uploads
 FileRouter.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3008',
+    'http://localhost:3002',
+    'http://127.0.0.1:3002',
+    'http://51.68.172.145:3002',
+    'https://serveur.leaders-building.com',
+    'https://crm.leaders-building.com'
+  ];
+  
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Content-Length');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
   if (req.method === 'OPTIONS') {
     res.sendStatus(200);
   } else {

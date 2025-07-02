@@ -21,7 +21,9 @@ const corsOptions = {
       "http://localhost:3000",
       "http://localhost:3008",
       "http://localhost:3002",
+      "http://127.0.0.1:3002",
       "http://51.68.172.145:3002",
+      "https://serveur.leaders-building.com",
       "https://crm.leaders-building.com",
     ];
 
