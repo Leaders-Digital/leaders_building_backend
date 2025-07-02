@@ -4,10 +4,22 @@ const createUploadMiddleware = require("../Middlewares/GenericUpload");
 const { AddFile, GetFileByRef,DeleteFile,GetFileById } = require("../Controllers/File_Controller");
 const FileRouter = express.Router();
 
+// Add CORS headers specifically for file uploads
+FileRouter.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Content-Length');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 const uploadFile = createUploadMiddleware({
   directory: "Uploads_files",
   fileTypes: ["jpg", "png", "jpeg", "pdf", "xlsx"],
-  maxSize: 50 * 1024 * 1024, // Increased to 50MB
+  maxSize: 20 * 1024 * 1024, // 20MB limit
   fieldName: "file",
 });
 
@@ -18,7 +30,7 @@ FileRouter.use((error, req, res, next) => {
   if (error instanceof multer.MulterError) {
     if (error.code === 'LIMIT_FILE_SIZE') {
       return res.status(413).json({ 
-        message: `File too large. Maximum size is ${50}MB.` 
+        message: `File too large. Maximum size is ${20}MB.` 
       });
     }
     if (error.code === 'LIMIT_FILE_COUNT') {

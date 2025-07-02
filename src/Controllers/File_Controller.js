@@ -5,8 +5,14 @@ const Project = require("../Models/Project");
 const {sendPushNotification} = require("../utils/sendPushNotification");
 const AddFile = async (req, res) => {
   try {
+    console.log("File upload request received");
+    console.log("Headers:", req.headers);
+    console.log("File:", req.file);
+    console.log("Params:", req.params);
+    
     const { refId, modelType } = req.params;
     if (!req.file || !modelType) {
+      console.log("Missing file or modelType");
       return res.status(400).json({ message: "Failed to upload the file. Please ensure a file is selected and try again." });
     }
 

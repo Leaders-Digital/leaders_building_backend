@@ -11,13 +11,15 @@ const path = require("path");
 console.log("Hello World CI/CD just testing");
 //const { logPerformance } = require("./utils/perfomanceLogger");
 dotenv.config();
-app.use(express.json());
+app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ limit: '20mb', extended: true }));
 app.use(coockieParser());
 const corsOpst = {
   origin: [
     "http://localhost:3000",
     "http://localhost:3008",
     "http://localhost:3002",
+    "http://127.0.0.1:3002",
     "http://51.68.172.145:3002",
     "https://serveur.leaders-building.com",
     "https://crm.leaders-building.com"
@@ -30,6 +32,9 @@ const corsOpst = {
     "Accept",
     "Authorization",
     "x-api-key",
+    "Content-Length",
+    "Cache-Control",
+    "X-Requested-With",
   ],
   credentials: true,
   preflightContinue: false,
@@ -40,8 +45,8 @@ const corsOpst = {
     logPerformance(req, res, time);
   })
 );*/
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use(cors(corsOpst));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 connectDB();
 app.use("/api", indexRouter);
 const PORT = process.env.PORT || 8000;
