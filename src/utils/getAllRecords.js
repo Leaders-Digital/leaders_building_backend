@@ -51,7 +51,7 @@ const getAllRecords = async (
       }
     }
 
-    const sortOrder = { [sortField]: -1 };
+    const sortOrder = { [sortField]: -1, _id: -1 }; // Add _id as secondary sort for consistency
     let query = model
       .find(matchQuery)
       .select("-password")
@@ -66,6 +66,11 @@ const getAllRecords = async (
 
     const records = await query;
     const totalItems = await model.countDocuments(matchQuery);
+    
+    console.log(`getAllRecords - Model: ${model.modelName}, Page: ${PageNumber}, Limit: ${LimitNumber}, Skip: ${skip}`);
+    console.log(`getAllRecords - Total items: ${totalItems}, Records returned: ${records.length}`);
+    console.log(`getAllRecords - Match query:`, JSON.stringify(matchQuery, null, 2));
+    console.log(`getAllRecords - Records IDs:`, records.map(r => r._id));
 
     return res.status(200).json({
       data: records,

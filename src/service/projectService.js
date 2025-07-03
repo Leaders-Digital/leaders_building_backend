@@ -72,14 +72,18 @@ const updateProject = async (id, updatedData) => {
 
 const deleteProject = async (id) => {
   try {
+    console.log(`Deleting project with ID: ${id}`);
     const project = await Project.findOne({ _id: id });
     if (!project) {
       throw new Error("there is no project by this id");
     }
+    console.log(`Found project: ${project.name}, setting isDeleted to true`);
     project.isDeleted = true;
-    project.save();
+    await project.save();
+    console.log(`Project ${project.name} marked as deleted successfully`);
     return project;
   } catch (e) {
+    console.error(`Error deleting project: ${e.message}`);
     throw e;
   }
 };

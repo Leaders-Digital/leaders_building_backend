@@ -72,10 +72,8 @@ const getAllProjects = async (req, res) => {
     const filters = { isDeleted: false };
     const searchFields = [
       "name",
-      "lastName",
       "status",
       "location",
-      "projectId",
     ];
     const populateFields = ["clientId", "photos", "members"];
     await getAllRecords(Project, req, res, searchFields, filters, "createdAt", [], populateFields);
