@@ -23,7 +23,7 @@ FileRouter.use((error, req, res, next) => {
     }
     if (error.code === 'LIMIT_FILE_COUNT') {
       return res.status(400).json({ 
-        message: 'Too many files. Only one file allowed.' 
+        message: 'Too many files. Only one file allowed.'
       });
     }
     if (error.code === 'LIMIT_UNEXPECTED_FILE') {
@@ -36,6 +36,7 @@ FileRouter.use((error, req, res, next) => {
 });
 FileRouter.get("/getFile/:id", GetFileByRef);
 FileRouter.get("/getFileById/:id", GetFileById);
+
 
 FileRouter.delete("/delete/:id",DeleteFile)
 
