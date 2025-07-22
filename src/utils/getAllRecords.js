@@ -51,7 +51,7 @@ const getAllRecords = async (
       }
     }
 
-    const sortOrder = { [sortField]: -1, _id: -1 }; // Add _id as secondary sort for consistency
+    const sortOrder = { [sortField]: -1, _id: -1 };
     let query = model
       .find(matchQuery)
       .select("-password")
