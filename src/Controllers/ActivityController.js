@@ -72,9 +72,31 @@ const getAllActivities = async (req, res) => {
     return res.status(400).json({ message: e.message });
   }
 };
+
+const getProspectActivities = async (req, res) => {
+  try {
+    const { prospectId } = req.params;
+    
+    if (!prospectId) {
+      return res.status(400).json({ message: "L'ID du prospect est obligatoire" });
+    }
+
+    const activities = await ActivityService.getAllActivitiesByProspect(prospectId);
+    
+    return res.status(200).json({ 
+      data: activities, 
+      message: "Activités récupérées avec succès",
+      count: activities.length
+    });
+  } catch (e) {
+    return res.status(400).json({ message: e.message });
+  }
+};
+
 module.exports = {
   createActivity,
   markAsDone,
   getAllActivities,
   addNote,
+  getProspectActivities,
 };

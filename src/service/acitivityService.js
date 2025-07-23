@@ -1,20 +1,29 @@
 const dayjs = require("dayjs");
 const Activity = require("../Models/Activity");
+const Prospect = require("../Models/Prospect");
 const { default: mongoose } = require("mongoose");
 
 const addActivity = async (data) => {
   const { activity, date, description, propspectId } = data;
 
-  if (!date || !activity) {
-    throw new Error("one of the required fields is missing");
+  if (!date || !activity || !propspectId) {
+    throw new Error("Les champs date, activity et propspectId sont obligatoires");
   }
+
+  // Vérifier que le prospect existe
+  const prospect = await Prospect.findById(propspectId);
+  if (!prospect) {
+    throw new Error("Prospect non trouvé");
+  }
+
   const normalizedDate = dayjs(date).utc().toDate();
   const newActivity = await Activity.create({
     date: normalizedDate,
     activity: activity,
-    description: [description],
+    description: description ? [description] : [],
     propspectId: propspectId,
   });
+  
   return newActivity;
 };
 const markItAsDone = async (id, note) => {
@@ -27,13 +36,22 @@ const markItAsDone = async (id, note) => {
   return act;
 };
 const getAllActivitiesByProspect = async (prospectId) => {
-  const query = { isDeleted: false };
-  if (prospectId) {
-    query.propspectId = prospectId;
+  if (!prospectId) {
+    throw new Error("L'ID du prospect est obligatoire");
   }
-  console.log(query);
-  const activites = await Activity.find(query);
-  return activites;
+
+  // Vérifier que le prospect existe
+  const prospect = await Prospect.findById(prospectId);
+  if (!prospect) {
+    throw new Error("Prospect non trouvé");
+  }
+
+  const activities = await Activity.find({
+    propspectId: prospectId,
+    isDeleted: false
+  }).sort({ date: -1 }); // Trier par date décroissante (plus récent en premier)
+
+  return activities;
 };
 const addNote = async (id, note) => {
   if (!note) {

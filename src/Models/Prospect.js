@@ -1,8 +1,15 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const bycript = require("bcrypt");
+const bcrypt = require("bcrypt");
 const { default: isEmail } = require("validator/lib/isEmail");
 
+// Password validation function
+const isPassword = (value) => {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+=[\]{}|;:'",.<>?/`~\\/-]{8,}$/;
+  return passwordRegex.test(value);
+};
+
+// Prospect Schema
 const ProspectSchema = new mongoose.Schema(
   {
     name: {
@@ -18,10 +25,8 @@ const ProspectSchema = new mongoose.Schema(
       required: true,
       unique: true,
       validate: {
-        validator: function (value) {
-          return isEmail(value);
-        },
-        message: "the emain is not valid format",
+        validator: isEmail,
+        message: "The email is not in a valid format",
       },
     },
     telephone: {
@@ -30,7 +35,7 @@ const ProspectSchema = new mongoose.Schema(
     },
     adresse: {
       type: String,
-      require: true,
+      required: true,
     },
     dateDeNaissance: {
       type: Date,
@@ -38,9 +43,7 @@ const ProspectSchema = new mongoose.Schema(
     password: {
       type: String,
       validate: {
-        validator: function (value) {
-          return isPassword(value);
-        },
+        validator: isPassword,
         message:
           "Password must be at least 8 characters long, and include one uppercase letter, one number, and one special character",
       },
@@ -50,7 +53,6 @@ const ProspectSchema = new mongoose.Schema(
       enum: ["client", "prospect"],
       default: "prospect",
     },
-
     CIN: {
       type: String,
       validate: {
@@ -60,10 +62,13 @@ const ProspectSchema = new mongoose.Schema(
             validator.isLength(value, { min: 8, max: 8 })
           );
         },
-        message: "the cin should be 8 numbers ",
+        message: "The CIN should be exactly 8 numeric digits",
       },
     },
-    isDeleted: { type: Boolean, default: false },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     stage: {
       type: String,
       enum: ["prospection", "suivi", "factorisation", "conversion", "abondon"],
@@ -73,7 +78,6 @@ const ProspectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     propertyType: {
       type: String,
       enum: ["RDC", "R+N", "Autre"],
@@ -92,12 +96,20 @@ const ProspectSchema = new mongoose.Schema(
       enum: ["agence", "rs", "Site Web", "autre"],
     },
     agence: {
-      name: { type: String },
-      agent: { type: String },
+      name: {
+        type: String,
+      },
+      agent: {
+        type: String,
+      },
     },
     socialMedia: {
-      platform: { type: String },
-      link: { type: String },
+      platform: {
+        type: String,
+      },
+      link: {
+        type: String,
+      },
     },
     otherSourceDescription: {
       type: String,
@@ -118,43 +130,40 @@ const ProspectSchema = new mongoose.Schema(
     percent: {
       type: String,
     },
-    lotissement: { type: String },
+    lotissement: {
+      type: String,
+    },
     lotissementCords: {
-      nom: { type: String },
-      numLot: { type: String },
+      nom: {
+        type: String,
+      },
+      numLot: {
+        type: String,
+      },
     },
     adressParticulier: {
       type: String,
     },
   },
-
   {
     timestamps: true,
   }
 );
+
+// Password hash middleware
 ProspectSchema.pre("save", async function (next) {
   if (this.isModified("password") && this.type === "client" && this.password) {
     try {
-      const salt = await bycript.genSalt(10);
-      this.password = await bycript.hash(this.password, salt);
-    } catch (e) {
-      return next(e);
-    }
-  } else if (this.isModified("password") && this.type === "client") {
-    try {
-      const salt = await bycript.genSalt(10);
-      this.password = await bycript.hash(this.password, salt);
+      const salt = await bcrypt.genSalt(10);
+      this.password = await bcrypt.hash(this.password, salt);
     } catch (e) {
       return next(e);
     }
   }
   next();
 });
-const isPassword = (value) => {
-  const passwordRgex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+=[\]{}|;:'",.<>?/`~\\/-]{8,}$/;
-  return passwordRgex.test(value);
-};
+
+// Index for stage
 ProspectSchema.index({ stage: 1 });
 
 module.exports = mongoose.model("Prospect", ProspectSchema);
