@@ -11,9 +11,11 @@ const createProspectt = async (data) => {
     lastName,
     telephone,
     email,
+    whatsapp,
     adress,
     dateDeNaissance,
     cin,
+    situation,
     status,
     propertyType,
     propertyDetails,
@@ -25,6 +27,23 @@ const createProspectt = async (data) => {
     service,
     profilePicId,
     percent,
+    // Nouveaux champs détails du projet
+    localisationProjet,
+    terrainInclus,
+    superficieTerrain,
+    surfaceBatie,
+    contraintesLegales,
+    detailsContraintes,
+    // Nouveaux champs budget et financement
+    budgetEstime,
+    modeFinancement,
+    prioriteQualitePrix,
+    // Nouveaux champs délais et planning
+    debutTravaux,
+    dateLimiteLivraison,
+    flexibiliteDelais,
+    travauxPlusieursPhases,
+    // Anciens champs localisation
     lotissement,
     lotissementCords,
     adressParticulier,
@@ -40,42 +59,66 @@ const createProspectt = async (data) => {
   validatePropertyType(propertyType);
 
   if (propertyType === "RDC" && !propertyDetails.rooms) {
-    return res.status(400).json({ message: "RDC mut have rooms " });
+    throw new Error("RDC must have rooms");
   }
   if (propertyType === "R+N" && !Array.isArray(propertyDetails.floors)) {
-    return res.status(400).json({ message: "must have floors and rooms" });
+    throw new Error("R+N must have floors and rooms");
   }
-  console.log("lotissment", lotissement);
+
+  console.log("lotissement", lotissement);
   console.log("lotisscords", lotissementCords);
+
   const newprospect = new Prospect({
     name,
     lastName,
     telephone,
     email,
+    whatsapp,
     adresse: adress,
+    situation,
     dateDeNaissance,
     CIN: cin,
     status,
     projectType,
     propertyDetails,
+    propertyType,
+    service,
+
+    localisationProjet,
+    terrainInclus,
+    superficieTerrain: parseInt(superficieTerrain),
+    surfaceBatie: parseInt(surfaceBatie),
+    contraintesLegales,
+    detailsContraintes: contraintesLegales === "oui" ? detailsContraintes : null,
+
+    budgetEstime: parseInt(budgetEstime),
+    modeFinancement,
+    prioriteQualitePrix,
+
+    debutTravaux: new Date(debutTravaux),
+    dateLimiteLivraison: new Date(dateLimiteLivraison),
+    flexibiliteDelais,
+    travauxPlusieursPhases,
+
     source,
     agence: source === "agence" ? agence : {},
     socialMedia: source === "rs" ? socialMedia : {},
     otherSourceDescription: source === "autre" ? otherSourceDescription :
         source === "Site Web" ? "Site web" : null,
-    service: service,
+
     profilePicId: profilePicId,
     percent,
+    agent,
+
     lotissement,
     lotissementCords: lotissement === "Lotissement" ? lotissementCords : {},
     adressParticulier,
-    propertyType,
-    agent,
+
+    prospectType: "standard",
   });
-  //newprospect.statusHistory.push({ stage: stage, status: status });
+
   await newprospect.save();
   return newprospect;
 };
-
 
 module.exports = { createProspectt };
