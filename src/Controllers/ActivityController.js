@@ -36,7 +36,7 @@ const addNote = async (req, res) => {
 const getAllActivities = async (req, res) => {
   try {
     const { id, dateFilter } = req.query;
-    let filters = { propspectId: id };
+    let filters = { isDeleted: false };
     const currentDateMidnight = dayjs().utc().startOf("day").toDate();
 
     if (dateFilter === "upcoming") {
