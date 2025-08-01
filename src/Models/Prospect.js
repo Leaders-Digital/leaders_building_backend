@@ -71,11 +71,7 @@ const ProspectSchema = new mongoose.Schema(
             },
         },
         isDeleted: { type: Boolean, default: false },
-        stage: {
-            type: String,
-            enum: ["prospection", "suivi", "factorisation", "conversion", "abondon"],
-            default: "prospection",
-        },
+
         situation: {
             type: String,
             required: true,
