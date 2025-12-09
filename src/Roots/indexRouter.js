@@ -10,6 +10,7 @@ const DevisRouter = require("./DevisRoote");
 const ProjectRouter = require("./ProjectRouter");
 const ProjectPhaseRouter = require("./ProjectPhasesRouter");
 const SubPhaseRouter = require("./SubPhaseRouter");
+const publicRouter = require("./publicRoutes");
 const router = express.Router();
 
 router.use("/admin", userRouter);
@@ -22,5 +23,6 @@ router.use("/devis", DevisRouter);
 router.use("/project", ProjectRouter);
 router.use("/projectPhase", ProjectPhaseRouter);
 router.use("/subPhase", SubPhaseRouter);
+router.use("/public", publicRouter);
 
 module.exports = router;
