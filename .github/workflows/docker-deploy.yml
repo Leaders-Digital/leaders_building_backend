@@ -53,7 +53,7 @@ jobs:
                 image: ${DOCKERHUB_USER}/backend-building-old:latest
                 container_name: backend-building-app
                 ports:
-                  - "8000:8000"
+                  - "8000:8002"
                 env_file:
                   - .env
                 volumes:
