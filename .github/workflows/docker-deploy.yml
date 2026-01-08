@@ -46,14 +46,12 @@ jobs:
             
             # Create docker-compose.yml for backend
             cat > /home/ubuntu/backend-building/docker-compose.yml << EOF
-            version: '3.8'
-            
             services:
               backend-building:
                 image: ${DOCKERHUB_USER}/backend-building-old:latest
                 container_name: backend-building-app
                 ports:
-                  - "8000:8002"
+                  - "8002:8000"
                 env_file:
                   - .env
                 volumes:
@@ -85,6 +83,10 @@ jobs:
             # Stop any existing backend containers that might conflict
             sudo docker stop backend-building-app 2>/dev/null || true
             sudo docker rm backend-building-app 2>/dev/null || true
+            
+            # Find and kill any process using port 8000
+            sudo lsof -ti:8000 | xargs sudo kill -9 2>/dev/null || true
+            sudo fuser -k 8000/tcp 2>/dev/null || true
             
             # Navigate to backend directory
             cd /home/ubuntu/backend-building
