@@ -29,19 +29,6 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/backend-building-old:latest
-          
-      - name: Update docker-compose with DockerHub username
-        run: |
-          sed -i "s|DOCKERHUB_USERNAME|${{ secrets.DOCKERHUB_USERNAME }}|g" docker-compose.yml
-      
-      - name: Copy docker-compose to server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          source: "docker-compose.yml"
-          target: "/home/ubuntu/backend-building"
       
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -50,19 +37,60 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
+            # Create backend directory if it doesn't exist
+            mkdir -p /home/ubuntu/backend-building
+            mkdir -p /home/ubuntu/backend-building/uploads
+            
+            # Set DockerHub username
+            DOCKERHUB_USER="${{ secrets.DOCKERHUB_USERNAME }}"
+            
+            # Create docker-compose.yml for backend
+            cat > /home/ubuntu/backend-building/docker-compose.yml << EOF
+            version: '3.8'
+            
+            services:
+              backend-building:
+                image: ${DOCKERHUB_USER}/backend-building-old:latest
+                container_name: backend-building-app
+                ports:
+                  - "8000:8000"
+                env_file:
+                  - .env
+                volumes:
+                  - ./uploads:/app/uploads
+                user: "1001:1001"
+                restart: unless-stopped
+                networks:
+                  - backend-network
+            
+            networks:
+              backend-network:
+                driver: bridge
+            EOF
+            
+            # Create .env file if it doesn't exist (or update it)
+            if [ ! -f /home/ubuntu/backend-building/.env ]; then
+              cat > /home/ubuntu/backend-building/.env << 'ENVEOF'
+            NODE_ENV=production
+            PORT=8000
+            EMAIL_USER=leaders.dev@leaders-building.com
+            EMAIL_PASS=SiteWeb@MakeUp@2024
+            MONGODB_URI=mongodb+srv://leadersdev1:eeYrZtYTykpEvZoB@cluster0.xpa7e.mongodb.net/leaders-crm
+            JWT_SECRET=leadersbusiness@!2021
+            JWT_EXPIRES_IN=7d
+            API_KEY=lead!ers@bus!iness@!20!24
+            ENVEOF
+            fi
+            
+            # Stop any existing backend containers that might conflict
+            sudo docker stop backend-building-app 2>/dev/null || true
+            sudo docker rm backend-building-app 2>/dev/null || true
+            
+            # Navigate to backend directory
             cd /home/ubuntu/backend-building
             
-            # Stop and remove containers
-            sudo docker-compose down
+            # Pull the latest backend image
+            sudo docker compose pull
             
-            # Remove old images to force pull of new version
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/backend-building-old:latest || true
-            
-            # Pull the latest image
-            sudo docker-compose pull
-            
-            # Start with the new image
-            sudo docker-compose up -d
-            
-            # Clean up unused images
-            sudo docker image prune -f
+            # Start the backend service
+            sudo docker compose up -d
