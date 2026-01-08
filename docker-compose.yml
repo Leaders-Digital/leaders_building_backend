@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    image: DOCKERHUB_USERNAME/backend-building-old:latest
+    container_name: backend-building
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
+

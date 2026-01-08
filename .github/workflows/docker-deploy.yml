@@ -30,6 +30,9 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/backend-building-old:latest
           
+      - name: Update docker-compose with DockerHub username
+        run: |
+          sed -i "s|DOCKERHUB_USERNAME|${{ secrets.DOCKERHUB_USERNAME }}|g" docker-compose.yml
       
       - name: Copy docker-compose to server
         uses: appleboy/scp-action@master
